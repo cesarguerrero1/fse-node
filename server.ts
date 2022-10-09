@@ -11,7 +11,7 @@ app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!!!!'));
 
 app.get('/hello', (req: Request, res: Response) =>
-    res.send('Welcome to Foundation of Software Engineering!'));
+    res.send('Welcome to Foundation of Software Engineering - Fall 2022!'));
 
 /**
  * Start a server listening at port 4000 locally
