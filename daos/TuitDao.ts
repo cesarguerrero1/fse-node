@@ -14,12 +14,30 @@ import TuitDaoI from "../interfaces/TuitDao"
 class TuitDao implements TuitDaoI{
 
     //Recall that the DAO is what allows our controller to talk to the Model
-    async findAllTuits(req: Request, res: Response): Promise<Tuit[]>{
-        return await 
+    async findAllTuits(): Promise<Tuit[]>{
+        return await TuitModel.find();
     }
-    findTuitById(req: Request, res: Response): void;
-    findTuitsByUser(req: Request, res: Response): void;
-    createTuit(req: Request, res: Response): void;
-    updateTuit(req: Request, res: Response): void;
-    deleteTuit(req: Request, res: Response): void;
+
+    async findTuitById(tuitid: string): Promise<any>{
+        return await TuitModel.findById(tuitid);
+    }
+
+    async findTuitsByUser(userid: string): Promise<Tuit[]>{
+        return await TuitModel.find({postedBy: userid}).populate('words').exec();
+    }
+
+    async createTuit(tuit: Tuit): Promise<Tuit>{
+        return await TuitModel.create(tuit);
+    }
+
+    async deleteTuit(tuitid: string): Promise<any>{
+        return await TuitModel.deleteOne({_id: tuitid});
+    }
+
+    async updateTuit(tuitid: string, tuit: Tuit): Promise<any>{
+        return await TuitModel.updateOne({_id: tuitid}, { $set: tuit});
+    }
+    
 }
+
+export default TuitDao;
