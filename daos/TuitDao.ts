@@ -23,7 +23,7 @@ class TuitDao implements TuitDaoI{
     }
 
     async findTuitsByUser(userid: string): Promise<Tuit[]>{
-        return await TuitModel.find({postedBy: userid}).populate('words').exec();
+        return await TuitModel.find({postedBy: userid}, {_id:0}).populate('postedBy').exec();
     }
 
     async createTuit(tuit: Tuit): Promise<Tuit>{

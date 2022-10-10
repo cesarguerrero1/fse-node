@@ -18,11 +18,11 @@ class TuitController implements TuitControllerI{
 
     constructor(app:Express, tuitDao: TuitDao){
         this.app = app;
-        this.tuitDao = this.tuitDao;
+        this.tuitDao = tuitDao;
         //HTTP Listeners
         this.app.get('/tuits', this.findAllTuits);
         this.app.get('/tuits/:tuitid', this.findTuitById);
-        this.app.get('users/:userid/tuits', this.findTuitsByUser);
+        this.app.get('/users/:userid/tuits', this.findTuitsByUser);
         this.app.post('/tuits', this.createTuit);
         this.app.delete('/tuits/:tuitid', this.deleteTuit);
         this.app.put('/tuits/:tuitid', this.updateTuit);
@@ -52,3 +52,5 @@ class TuitController implements TuitControllerI{
         this.tuitDao.updateTuit(req.params.tuitid, req.body).then((status) => res.json(status));
     }
 }
+
+export default TuitController;

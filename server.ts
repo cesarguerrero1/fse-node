@@ -19,6 +19,8 @@ app.use(express.json());
 //Controllers and DAO Imports
 import UserController from './controllers/UserController';
 import UserDao from './daos/UserDao';
+import TuitController from './controllers/TuitController';
+import TuitDao from './daos/TuitDao';
 
 const options={
     useNewUrlParser: true,
@@ -34,6 +36,7 @@ mongoose.connect('mongodb://localhost:27017/tuiter', options);
 
 //Controller Instantiation
 const userController = new UserController(app, new UserDao());
+const tuitController = new TuitController(app, new TuitDao());
 
 /**
  * Start a server listening at port 4000 locally

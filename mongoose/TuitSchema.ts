@@ -6,13 +6,12 @@
  * Assignment 1 - Tuit Schema
  */
 
-import User from "../models/User"
 import mongoose from "mongoose";
 
 const TuitSchema = new mongoose.Schema({
     //Recall you cannot make a Tuit without a STRING OF SOME SORT!
-    tuit: {String, required: true},
-    postedON: { type: Date, default: Date.now },
+    tuit: {type: String, required: true},
+    postedOn: { type: Date, default: Date.now },
     //Here is how we make two collections talk to each other! NOTE: This syntax
     //is coming from the code we worked on in clas with Prof. Annunziato
     postedBy: {
