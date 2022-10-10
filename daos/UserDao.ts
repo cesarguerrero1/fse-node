@@ -12,6 +12,7 @@ import UserDaoI from "../interfaces/UserDao"; //We want all of our DAOs to adher
 
 class UserDao implements UserDaoI {
     //From within the User Collection of the database, get all the users
+    //NOTE: async at the start of a function FORCES it to return a promise!
     async findAllUsers(): Promise<User[]> {
         return await UserModel.find();
     }
