@@ -3,6 +3,7 @@ build
 data
 out
 coverage
+.env
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

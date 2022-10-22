@@ -26,8 +26,8 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4
 };
-//Connecting to database
-mongoose_1.default.connect('mongodb://localhost:27017/tuiter', options);
+//Connecting to REMOTE database
+mongoose_1.default.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority`, options);
 //Controller Instantiation
 const userController = new UserController_1.default(app, new UserDao_1.default());
 const tuitController = new TuitController_1.default(app, new TuitDao_1.default());
