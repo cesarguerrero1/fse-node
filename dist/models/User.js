@@ -19,12 +19,12 @@ class User {
         //Note the syntax! If a firstname is not provide, then just make it null
         this.username = '';
         this.password = '';
-        this.firstName = null;
-        this.lastName = null;
+        this.firstName = '';
+        this.lastName = '';
         this.email = '';
         this.profilePhoto = null;
         this.headerImage = null;
-        this.biography = null;
+        this.biography = '';
         this.dateOfBirth = null;
         this.joined = new Date();
         //Here is where we are referencing the Enums and Classes

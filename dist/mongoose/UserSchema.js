@@ -18,12 +18,12 @@ const UserSchema = new mongoose_1.default.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
     //Basic Info
-    firstName: String,
-    lastName: String,
-    email: String,
+    firstName: { type: String, default: "" },
+    lastName: { type: String, default: "" },
+    email: { type: String, default: "" },
     profilePhoto: String,
     headerImage: String,
-    biography: String,
+    biography: { type: String, default: "" },
     dateOfBirth: Date,
     joined: { type: Date, default: Date.now },
     //Enumerations & Classes
