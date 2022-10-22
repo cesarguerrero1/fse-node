@@ -16,12 +16,12 @@ class User {
     //Note the syntax! If a firstname is not provide, then just make it null
     private username: string = '';
     private password: string = '';
-    private firstName: string | null = null;
-    private lastName: string | null = null;
+    private firstName: string = '';
+    private lastName: string = '';
     private email: string = '';
     private profilePhoto: string | null = null;
     private headerImage: string | null = null;
-    private biography: string | null = null;
+    private biography: string = '';
     private dateOfBirth: Date | null = null;
     private joined: Date = new Date();
 

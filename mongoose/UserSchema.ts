@@ -16,12 +16,12 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
 
     //Basic Info
-    firstName: String,
-    lastName: String,
-    email: String,
+    firstName: { type: String, default: "" },
+    lastName: { type: String, default: "" },
+    email: { type: String, default: "" },
     profilePhoto: String,
     headerImage: String,
-    biography: String,
+    biography: { type: String, default: "" },
     dateOfBirth: Date,
     joined: { type: Date, default: Date.now },
     
