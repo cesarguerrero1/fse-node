@@ -1,0 +1,6 @@
+node_modules
+.elasticbeanstalk
+build
+data
+out
+coverage
