@@ -6,6 +6,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//Controllers and DAO Imports
+import UserController from './controllers/UserController';
+import UserDao from './daos/UserDao';
+import TuitController from './controllers/TuitController';
+import TuitDao from './daos/TuitDao';
+
+
+//Connecting to the database
+
 //Options for the Database
 const options = {
     useNewUrlParser: true,
@@ -17,15 +26,17 @@ const options = {
     family: 4
 }
 
-//Connecting to the database
-//mongoose.connect('mongodb://localhost:27017/fsd', options);
+//Connecting to database
+mongoose.connect('mongodb://localhost:27017/tuiter', options);
 
+//Controller Instantiation
+const userController = new UserController(app, new UserDao());
+const tuitController = new TuitController(app, new TuitDao());
 
-function sayHello (req: Request, res: Response) {
-    res.send('Hi from FSD 1!!!');
-}
+/**
+ * Start a server listening at port 4000 locally
+ * but use environment variable PORT on Heroku if available.
+ */
 
-app.get('/', sayHello);
-
-const PORT = 4000;
-app.listen(process.env.PORT || PORT);
+ const PORT = 4000;
+ app.listen(process.env.PORT || PORT);

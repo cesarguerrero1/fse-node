@@ -5,10 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 //Library Imports
 const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const cors = require('cors');
 const app = (0, express_1.default)();
 app.use(cors());
 app.use(express_1.default.json());
+//Controllers and DAO Imports
+const UserController_1 = __importDefault(require("./controllers/UserController"));
+const UserDao_1 = __importDefault(require("./daos/UserDao"));
+const TuitController_1 = __importDefault(require("./controllers/TuitController"));
+const TuitDao_1 = __importDefault(require("./daos/TuitDao"));
+//Connecting to the database
 //Options for the Database
 const options = {
     useNewUrlParser: true,
@@ -19,12 +26,15 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4
 };
-//Connecting to the database
-//mongoose.connect('mongodb://localhost:27017/fsd', options);
-function sayHello(req, res) {
-    res.send('Hi from FSD 1!!!');
-}
-app.get('/', sayHello);
+//Connecting to database
+mongoose_1.default.connect('mongodb://localhost:27017/tuiter', options);
+//Controller Instantiation
+const userController = new UserController_1.default(app, new UserDao_1.default());
+const tuitController = new TuitController_1.default(app, new TuitDao_1.default());
+/**
+ * Start a server listening at port 4000 locally
+ * but use environment variable PORT on Heroku if available.
+ */
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);
 //# sourceMappingURL=server.js.map
