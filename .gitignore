@@ -1,6 +1,9 @@
 node_modules
-.elasticbeanstalk
 build
 data
 out
 coverage
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
