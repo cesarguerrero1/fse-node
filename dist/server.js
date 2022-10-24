@@ -27,6 +27,11 @@ const UserController_1 = __importDefault(require("./controllers/UserController")
 const UserDao_1 = __importDefault(require("./daos/UserDao"));
 const TuitController_1 = __importDefault(require("./controllers/TuitController"));
 const TuitDao_1 = __importDefault(require("./daos/TuitDao"));
+const LikeController_1 = __importDefault(require("./controllers/LikeController"));
+const LikeDao_1 = __importDefault(require("./daos/LikeDao"));
+//Follows
+//Bookmarks
+//Messages
 //Options for the Database
 const options = {
     useNewUrlParser: true,
@@ -44,6 +49,10 @@ mongoose_1.default.connect(`mongodb+srv://${process.env.username}:${process.env.
 //Controller Instantiation
 const userController = new UserController_1.default(app, new UserDao_1.default());
 const tuitController = new TuitController_1.default(app, new TuitDao_1.default());
+const likeController = new LikeController_1.default(app, new LikeDao_1.default());
+//Follows
+//Bookmarks
+//Messages
 //Defining what port to listen to
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);

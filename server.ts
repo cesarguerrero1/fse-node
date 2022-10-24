@@ -25,6 +25,11 @@ import UserController from './controllers/UserController';
 import UserDao from './daos/UserDao';
 import TuitController from './controllers/TuitController';
 import TuitDao from './daos/TuitDao';
+import LikeController from "./controllers/LikeController";
+import LikeDao from "./daos/LikeDao";
+//Follows
+//Bookmarks
+//Messages
 
 //Options for the Database
 const options = {
@@ -44,6 +49,10 @@ mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@
 //Controller Instantiation
 const userController = new UserController(app, new UserDao());
 const tuitController = new TuitController(app, new TuitDao());
+const likeController = new LikeController(app, new LikeDao());
+//Follows
+//Bookmarks
+//Messages
 
 //Defining what port to listen to
 const PORT = 4000;

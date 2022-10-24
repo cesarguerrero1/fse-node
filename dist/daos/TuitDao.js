@@ -33,7 +33,7 @@ class TuitDao {
     findAllTuits() {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find all Tuit Objects
-            return yield TuitModel_1.default.find();
+            return yield TuitModel_1.default.find().populate("postedBy", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
         });
     }
     /**
@@ -41,23 +41,23 @@ class TuitDao {
     * @param {String} tid A string that represents the unique ID of the Tuit within the database
     * @return {Promise<Tuit>} Returns a Promise that when resolved will contain a single Tuit object
     */
-    findTuitById(tuitid) {
+    findTuitById(tid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find the Tuit Object with the given ID
-            return yield TuitModel_1.default.findById(tuitid);
+            return yield TuitModel_1.default.findById(tid).populate("postedBy", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
         });
     }
     /**
     * Asynchronous function to find all Tuit Objects belonging to a given User
     * @param {String} uid A string that represent the Users unique ID
-    * @return {Promise<any>} Returns a Promise that when resolved will contain an array of all the Tuit Objects belonging to the User with the given unique ID
+    * @return {Promise<Tuit[]>} Returns a Promise that when resolved will contain an array of all the Tuit Objects belonging to the User with the given unique ID
     */
-    findTuitsByUser(userid) {
+    findTuitsByUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find all Tuit Objects associated with the given user.
             //NOTE: When we find the user, we want to populate their information into the field
             //that normally just contains their ID
-            return yield TuitModel_1.default.find({ postedBy: userid }, { _id: 0 }).populate('postedBy').exec();
+            return yield TuitModel_1.default.find({ postedBy: uid }).populate('postedBy').exec();
         });
     }
     /**
@@ -76,10 +76,10 @@ class TuitDao {
     * @param {String} tid A string that represents the unique ID of the Tuit within the database
     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted deletion
     */
-    deleteTuit(tuitid) {
+    deleteTuit(tid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Delete a Tuit object with the given ID from the database
-            return yield TuitModel_1.default.deleteOne({ _id: tuitid });
+            return yield TuitModel_1.default.deleteOne({ _id: tid });
         });
     }
     /**
@@ -88,10 +88,10 @@ class TuitDao {
     * @param {TuitObject} tuit A Tuit Object in the form of a JSON object that contains all name-value pairs for information you wish to update
     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted update
     */
-    updateTuit(tuitid, tuit) {
+    updateTuit(tid, tuit) {
         return __awaiter(this, void 0, void 0, function* () {
             //Update a Tuit object with the given ID
-            return yield TuitModel_1.default.updateOne({ _id: tuitid }, { $set: tuit });
+            return yield TuitModel_1.default.updateOne({ _id: tid }, { $set: tuit });
         });
     }
 }
