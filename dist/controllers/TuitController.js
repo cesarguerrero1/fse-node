@@ -21,7 +21,14 @@ class TuitController {
      * @param tuitDao The DAO that will allow us to interact with the database
      */
     constructor(app, tuitDao) {
-        //JSDOC for this functions is located in the interface
+        /**
+         * This function will be delegating the task of finding all the Tuits in the database
+         * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+         * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+         * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+         * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+         * as we will likely just programatically display the content on the screen
+         */
         this.findAllTuits = (req, res) => {
             //As defined in the constructor, this function is called when a given HTTP request occurs
             //In this case the program is attempting to see all the Tuits in our database so we call
@@ -29,26 +36,61 @@ class TuitController {
             //the content to the user
             this.tuitDao.findAllTuits().then((tuits) => res.json(tuits));
         };
-        //JSDOC for this functions is located in the interface
+        /**
+         * This function will be delegating the task of finding a given Tuit using its ID within the database
+         * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+         * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+         * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+         * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+         * as we will likely just programatically display the content on the screen
+         */
         this.findTuitById = (req, res) => {
             //The ID for the Tuit is provided within the parameters field within the request object
             this.tuitDao.findTuitById(req.params.tuitid).then((tuit) => res.json(tuit));
         };
-        //JSDOC for this functions is located in the interface
+        /**
+         * This function will be delegating the task of finding all the Tuits belonging to a given User in the database
+         * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+         * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+         * @param {ResponsesObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+         * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+         * as we will likely just programatically display the content on the screen
+         */
         this.findTuitsByUser = (req, res) => {
             this.tuitDao.findTuitsByUser(req.params.userid).then((tuits) => res.json(tuits));
         };
-        //JSDOC for this functions is located in the interface
+        /**
+         * This function will be delegating the task of creating a new Tuit in the database
+         * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+         * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+         * @param {ResponsesObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+         * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+         * as we will likely just programatically display the content on the screen
+         */
         this.createTuit = (req, res) => {
             //Since we are creating a Tuit (whose information is stored in an object) we need
             //to include that object within the body of the request as opposed to the parameters
             this.tuitDao.createTuit(req.body).then((tuit) => res.json(tuit));
         };
-        //JSDOC for this functions is located in the interface
+        /**
+         * This function will be delegating the task of deleting a Tuit record from the database
+         * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+         * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+         * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+         * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+         * as we will likely just programatically display the content on the screen
+         */
         this.deleteTuit = (req, res) => {
             this.tuitDao.deleteTuit(req.params.tuitid).then((status) => res.json(status));
         };
-        //JSDOC for this functions is located in the interface
+        /**
+         * This function will be delegating the task of updating a Tuit record in the database
+         * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+         * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+         * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+         * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+         * as we will likely just programatically display the content on the screen
+         */
         this.updateTuit = (req, res) => {
             this.tuitDao.updateTuit(req.params.tuitid, req.body).then((status) => res.json(status));
         };

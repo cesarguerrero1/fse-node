@@ -10,7 +10,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @file This file stores an enum for the Marital Status options that a User can have
  */
-//Each user will fall under one of the following Marital Statuses
+/**
+ * @enum A user's Marital Status will fall into one of the choices below
+ */
 var MaritalStatus;
 (function (MaritalStatus) {
     MaritalStatus["Married"] = "MARRIED";

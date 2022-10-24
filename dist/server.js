@@ -38,9 +38,9 @@ const options = {
     family: 4
 };
 //When we are working locally we ned to connect differently to our local database
-mongoose_1.default.connect('mongodb://localhost:27017/tuiter', options);
+//mongoose.connect('mongodb://localhost:27017/tuiter', options);
 //Connecting to REMOTE database. Notice that our username and password are hidden within environmental variables
-//mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority`, options);
+mongoose_1.default.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority`, options);
 //Controller Instantiation
 const userController = new UserController_1.default(app, new UserDao_1.default());
 const tuitController = new TuitController_1.default(app, new TuitDao_1.default());

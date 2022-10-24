@@ -46,7 +46,14 @@ class UserController implements UserControllerI {
         this.app.put('/users/:userid', this.updateUser);
     }
 
-    //JSDOC for this functions is located in the interface
+    /**
+     * This function will be delegating the task of finding all the users in the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+     * @param {ResponsesObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
     findAllUsers = (req: Request, res: Response) => {
         //As defined in the constructor, this function is called when a given HTTP request occurs
         //In this case the program is attempting to see all the users in our database so we call
@@ -55,24 +62,52 @@ class UserController implements UserControllerI {
         return this.userDao.findAllUsers().then((users) => res.json(users));
     }
 
-    //JSDOC for this functions is located in the interface
+    /**
+     * This function will be delegating the task of finding a specific user with the given ID in the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+     * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
     findUserById = (req: Request, res: Response) =>
         //We are trying to find a specific user so we need to look at the parameters
         //stored within our request to get the provided ID
         this.userDao.findUserById(req.params.userid).then(user => res.json(user));
-
-    //JSDOC for this functions is located in the interface
+    
+    /**
+     * This function will be delegating the task of creating a new user in the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+     * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
     createUser = (req: Request, res: Response) =>{
         //Since we are creating a user (whose information is stored in an object) we need
         //to include that object within the body of the request as opposed to the parameters
         return this.userDao.createUser(req.body).then(user => res.json(user));
     }
 
-    //JSDOC for this functions is located in the interface
+    /**
+     * This function will be delegating the task of deleting a user in the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+     * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
     deleteUser = (req: Request, res: Response) =>
         this.userDao.deleteUser(req.params.userid).then(status => res.json(status));
 
-    //JSDOC for this functions is located in the interface 
+    /**
+     * This function will be delegating the task of update a specific User record in the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req When we call this function we will be providing a Request Object where we can store things like query parameters
+     * @param {ResponseObject} res When we call this function we will be providing a Response Object which is where the response from database will be stored
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
     updateUser = (req: Request, res: Response) =>
         this.userDao.updateUser(req.params.userid, req.body).then(status => res.json(status));
 }

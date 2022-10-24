@@ -11,7 +11,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @file This file stores an enum representing the type of account a user can have (Personal, Academic, Professional)
  * If you wanted to start implementing things like administrators, you would add more options to this enum
  */
-//Each account is one of the following types
+/**
+ * @enum A user's account type will fall into one of the choices below
+ */
 var AccountType;
 (function (AccountType) {
     AccountType["Personal"] = "PERSONAL";

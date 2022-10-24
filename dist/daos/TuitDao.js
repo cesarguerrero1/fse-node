@@ -26,21 +26,32 @@ const TuitModel_1 = __importDefault(require("../mongoose/TuitModel"));
  * @implements {TuitDaoI}
  */
 class TuitDao {
-    //JSDOC for this functions is located in the interface
+    /**
+    * Asynchronous function to find all Tuit Objects within a database
+    * @return {Promise<Tuit[]>} Returns a Promise that when resolved will contain an array of all the Tuit Objects within the Database
+    */
     findAllTuits() {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find all Tuit Objects
             return yield TuitModel_1.default.find();
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+    * Asynchronous function to find a specific Tuit Object within a database using its ID
+    * @param {String} tid A string that represents the unique ID of the Tuit within the database
+    * @return {Promise<Tuit>} Returns a Promise that when resolved will contain a single Tuit object
+    */
     findTuitById(tuitid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find the Tuit Object with the given ID
             return yield TuitModel_1.default.findById(tuitid);
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+    * Asynchronous function to find all Tuit Objects belonging to a given User
+    * @param {String} uid A string that represent the Users unique ID
+    * @return {Promise<any>} Returns a Promise that when resolved will contain an array of all the Tuit Objects belonging to the User with the given unique ID
+    */
     findTuitsByUser(userid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find all Tuit Objects associated with the given user.
@@ -49,21 +60,34 @@ class TuitDao {
             return yield TuitModel_1.default.find({ postedBy: userid }, { _id: 0 }).populate('postedBy').exec();
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+    * Asynchronous function to create a Tuit record within the database
+    * @param {TuitObject} tuit A Tuit object that you wish to insert into the database
+    * @return {Promise<Tuit>}  Returns a Promise that when resolved will contain the newly created Tuit Object
+    */
     createTuit(tuit) {
         return __awaiter(this, void 0, void 0, function* () {
             //Insert a new Tuit Object into the database
             return yield TuitModel_1.default.create(tuit);
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+    * Asynchronous function to delete a Tuit record within the database using its ID
+    * @param {String} tid A string that represents the unique ID of the Tuit within the database
+    * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted deletion
+    */
     deleteTuit(tuitid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Delete a Tuit object with the given ID from the database
             return yield TuitModel_1.default.deleteOne({ _id: tuitid });
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+    * Asynchronous function to find and update a specific Tuit Object within a database
+    * @param {String} tid A string that represents the unique ID of the Tuit within the database
+    * @param {TuitObject} tuit A Tuit Object in the form of a JSON object that contains all name-value pairs for information you wish to update
+    * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted update
+    */
     updateTuit(tuitid, tuit) {
         return __awaiter(this, void 0, void 0, function* () {
             //Update a Tuit object with the given ID

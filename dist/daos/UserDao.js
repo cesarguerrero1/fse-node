@@ -26,35 +26,55 @@ const UserModel_1 = __importDefault(require("../mongoose/UserModel")); //We need
  * @implements {UserDaoI}
  */
 class UserDao {
-    //JSDOC for this functions is located in the interface
+    /**
+     * Asynchronous function to find all User Objects within a database
+     * @return {Promise<User[]>} Returns a Promise that when resolved will contain an array of all the User Objects within the Database
+     */
     findAllUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find all User Objects
             return yield UserModel_1.default.find();
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+     * Asynchronous function to find a specific User Object within a database using their ID
+     * @param {String} uid A string that represents the Users unique ID within the database
+     * @return {Promise<any>} Returns a Promise that when resolved will contain either a single User Object or a null
+     */
     findUserById(uid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Search the database and find the User Object with the given ID
             return yield UserModel_1.default.findById(uid);
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+     * Asynchronous function to create a User record within the database
+     * @param {UserObject} user A User object that you wish to insert into the database
+     * @return {Promise<User>}  Returns a Promise that when resolved will contain the newly created User Object
+     */
     createUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
             //Insert a new User Object into the database
             return yield UserModel_1.default.create(user);
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+     * Asynchronous function to delete a User record within the database using their ID
+     * @param {String} uid A string that represents the Users unique ID within the database
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted deletion
+     */
     deleteUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
             //Delete a User object with the given ID from the database
             return yield UserModel_1.default.deleteOne({ _id: uid });
         });
     }
-    //JSDOC for this functions is located in the interface
+    /**
+     * Asynchronous function to find and update a specific User Object within a database
+     * @param {String} uid A string that represents the Users unique ID within the database
+     * @param {UserObject} user A User Object in the form of a JSON object that contains all name-value pairs for information you wish to update
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted update
+     */
     updateUser(uid, user) {
         return __awaiter(this, void 0, void 0, function* () {
             //Update a User object with the given ID

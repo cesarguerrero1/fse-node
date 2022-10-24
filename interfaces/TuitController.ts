@@ -19,64 +19,22 @@ import { Request, Response } from "express";
  */
 interface TuitController {
 
-    /**
-     * @function findAllTuits This function will be delegating the task of finding all the Tuits in the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {Request Object} req When we call this function we will be providing a Request Object where we can store things like query parameters
-     * @param {Response Object} res When we call this function we will be providing a Response Object which is where the response from database will be stored
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
+    //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
     findAllTuits(req: Request, res: Response): void;
 
-    /**
-     * @function findTuitById This function will be delegating the task of finding a given Tuit using its ID within the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {Request Object} req When we call this function we will be providing a Request Object where we can store things like query parameters
-     * @param {Response Object} res When we call this function we will be providing a Response Object which is where the response from database will be stored
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
+    //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
     findTuitById(req: Request, res: Response): void;
 
-    /**
-     * @function findTuitsByUser This function will be delegating the task of finding all the Tuits belonging to a given User in the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {Request Object} req When we call this function we will be providing a Request Object where we can store things like query parameters
-     * @param {Response Object} res When we call this function we will be providing a Response Object which is where the response from database will be stored
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
+    //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
     findTuitsByUser(req: Request, res: Response): void;
 
-    /**
-     * @function createTuit This function will be delegating the task of creating a new Tuit in the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {Request Object} req When we call this function we will be providing a Request Object where we can store things like query parameters
-     * @param {Response Object} res When we call this function we will be providing a Response Object which is where the response from database will be stored
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
+    //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
     createTuit(req: Request, res: Response): void;
 
-    /**
-     * @function updateTuit This function will be delegating the task of updating a Tuit record in the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {Request Object} req When we call this function we will be providing a Request Object where we can store things like query parameters
-     * @param {Response Object} res When we call this function we will be providing a Response Object which is where the response from database will be stored
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
+    //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
     updateTuit(req: Request, res: Response): void;
 
-    /**
-     * @function deleteTuit This function will be delegating the task of deleting a Tuit record from the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {Request Object} req When we call this function we will be providing a Request Object where we can store things like query parameters
-     * @param {Response Object} res When we call this function we will be providing a Response Object which is where the response from database will be stored
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
+    //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
     deleteTuit(req: Request, res: Response): void;
 }
 
