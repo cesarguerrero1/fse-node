@@ -1,17 +1,23 @@
+/*
+* Cesar Guerrero
+* 10/23/22
+* CS5500 - Fall 2022
+* 
+* Assignment 2
+*/
+
 /**
- * Cesar Guerrero
- * 10/09/22
- * CS5500 - Fall 2022
- * 
- * Assignemnt 1 - Given Code
+ * @file This file  stores the Location Class. Location Objects are instantiated everytime a 
+ * User Object is created.
  */
 
-//The location of each user is a CLASS, not an ENUM
+/**
+ * @class The Location Class contains Latitude and Longitude properties. We implement the Location
+ * as a class instead of say a string becuase this way we can group and edit the properties seamlessly
+ */
 class Location {
     public latitude: number = 0.0;
     public longitude: number = 0.0;
-
-    //No constructor given
 };
 
 export default Location;

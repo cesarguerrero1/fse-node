@@ -1,39 +1,56 @@
+/*
+* Cesar Guerrero
+* 10/23/22
+* CS5500 - Fall 2022
+* 
+* Assignment 2
+*/
+
 /**
- * Cesar Guerrero
- * 10/9/22
- * CS5500 - Fall 2022
- * 
- * Assignment 1 - Given User Data Access Object Code
+ * @file This file contains the Data Access Object for our User Collection. The given DAO implements the UserDao Interface that we 
+ * specified in another file. This DAO is what allows us to wrap all of the lower-level database operations
  */
 
+//Imports
 import User from "../models/User";
 import UserModel from "../mongoose/UserModel"; //We need the model so we can interact with the Database
 import UserDaoI from "../interfaces/UserDao"; //We want all of our DAOs to adhere to the interface
 
+/**
+ * @class The UserDao Class defines several methods to interact with the database. We define these methods but the work
+ * within each method is being done by built-in methods from the Mongoose Model Object (https://mongoosejs.com/docs/)
+ * @implements {UserDaoI}
+ */
 class UserDao implements UserDaoI {
-    //From within the User Collection of the database, get all the users
-    //NOTE: async at the start of a function FORCES it to return a promise!
+    
+    //JSDOC for this functions is located in the interface
     async findAllUsers(): Promise<User[]> {
+        //Search the database and find all User Objects
         return await UserModel.find();
     }
-    //From within the User Collection of the database, get a specific User
+
+    //JSDOC for this functions is located in the interface
     async findUserById(uid: string): Promise<any> {
+        //Search the database and find the User Object with the given ID
         return await UserModel.findById(uid);
     }
     
-    //Within the User Collection of the database create a User
-    async createUser(user: User): Promise<any> {
+    //JSDOC for this functions is located in the interface
+    async createUser(user: User): Promise<User> {
+        //Insert a new User Object into the database
         return await UserModel.create(user);
     }
 
-    //Within the User Collection of the database delete a user
+    //JSDOC for this functions is located in the interface
     async deleteUser(uid: string): Promise<any> {
+        //Delete a User object with the given ID from the database
         return await UserModel.deleteOne({ _id: uid });
     }
     
-    ////Within the User Collection of the database update a user
+    //JSDOC for this functions is located in the interface
     async updateUser(uid: string, user: User): Promise<any> {
-        return await UserModel.updateOne({ _id: uid }, { set: user });
+        //Update a User object with the given ID
+        return await UserModel.updateOne({ _id: uid }, { $set: user });
     }
 }
 

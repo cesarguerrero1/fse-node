@@ -1,15 +1,25 @@
+/*
+* Cesar Guerrero
+* 10/23/22
+* CS5500 - Fall 2022
+* 
+* Assignment 2
+*/
+
 /**
- * Cesar Guerrero
- * 10/22/22
- * CS5500 - Fall 2022
- * 
- * Assignment 2 - Given Schema Code
+ * @file This file allows for the instantiation of a Mongoose Schema Object using a User Schema
+ * that we have defined
  */
 
 import mongoose from "mongoose"; //We need mongoose in order to programmatically interact with Mongo!
 
-//NOTE: A schema controls how data is inputted into a collection of the database
-//mongoose.Schema({name:value}, {collection: collectionName})
+/**
+ * We are storing the creation of the Mongoose Schema Object within the UserSchema variable. The Schema
+ * allows us to enforce how data is allowed to be stored in the database
+ * @param {JavascriptObject} schemaObject Object containing name value pairs that represent a schema we want to enforce 
+ * @param {JavascriptObject} collectionObject Object containing (1) name-value pair with the name of the collection that this Schema will be defining
+ * @returns {MongooseSchemaObject} Returns a Mongoose Schema Object
+ */
 const UserSchema = new mongoose.Schema({
     //Since this is a schema employing JSON, we need name-value pairs! 
     username: { type: String, required: true },
@@ -19,10 +29,10 @@ const UserSchema = new mongoose.Schema({
     firstName: { type: String, default: "" },
     lastName: { type: String, default: "" },
     email: { type: String, default: "" },
-    profilePhoto: String,
-    headerImage: String,
+    profilePhoto: { type: String, default: null},
+    headerImage: { type: String, default: null},
     biography: { type: String, default: "" },
-    dateOfBirth: Date,
+    dateOfBirth: { type: String, default: null},
     joined: { type: Date, default: Date.now },
     
     //Enumerations & Classes

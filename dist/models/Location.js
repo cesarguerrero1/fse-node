@@ -1,18 +1,24 @@
 "use strict";
-/**
- * Cesar Guerrero
- * 10/09/22
- * CS5500 - Fall 2022
- *
- * Assignemnt 1 - Given Code
- */
+/*
+* Cesar Guerrero
+* 10/23/22
+* CS5500 - Fall 2022
+*
+* Assignment 2
+*/
 Object.defineProperty(exports, "__esModule", { value: true });
-//The location of each user is a CLASS, not an ENUM
+/**
+ * @file This file  stores the Location Class. Location Objects are instantiated everytime a
+ * User Object is created.
+ */
+/**
+ * @class The Location Class contains Latitude and Longitude properties. We implement the Location
+ * as a class instead of say a string becuase this way we can group and edit the properties seamlessly
+ */
 class Location {
     constructor() {
         this.latitude = 0.0;
         this.longitude = 0.0;
-        //No constructor given
     }
 }
 ;

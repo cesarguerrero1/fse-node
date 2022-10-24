@@ -1,9 +1,13 @@
+/*
+* Cesar Guerrero
+* 10/23/22
+* CS5500 - Fall 2022
+* 
+* Assignment 2
+*/
+
 /**
- * Cesar Guerrero
- * 10/09/22
- * CS5500 - Fall 2022
- * 
- * Assignemnt 1 - Given Code
+ * @file This file stores an enum for the Marital Status options that a User can have
  */
 
 //Each user will fall under one of the following Marital Statuses

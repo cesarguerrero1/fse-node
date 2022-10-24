@@ -1,9 +1,13 @@
+/*
+* Cesar Guerrero
+* 10/23/22
+* CS5500 - Fall 2022
+* 
+* Assignment 2
+*/
+
 /**
- * Cesar Guerrero
- * 10/09/22
- * CS5500 - Fall 2022
- * 
- * Assignemnt 1 - Given Code
+ * @file This file stores the User Class
  */
 
 //We are importing data from other files
@@ -11,17 +15,19 @@ import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
 
-//Users on Tuiter have basic information associated with them
+/**
+ * @class The User Class is used to implement a typical user of the application. (Username, password, name, email, etc.)
+ */
 class User {
-    //Note the syntax! If a firstname is not provide, then just make it null
-    private username: string = '';
+    public username: string = '';
     private password: string = '';
-    private firstName: string = '';
-    private lastName: string = '';
+    private firstName: string | null = null;
+    private lastName: string | null = null;
     private email: string = '';
+    //Notice the syntax here. We are either accepting a string or a null
     private profilePhoto: string | null = null;
     private headerImage: string | null = null;
-    private biography: string = '';
+    private biography: string | null = null;
     private dateOfBirth: Date | null = null;
     private joined: Date = new Date();
 
