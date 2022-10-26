@@ -14,6 +14,10 @@ import Like from "../models/Like";
  * not need to be entirely reconfigured 
  */
 
+/**
+ * @interface LikeDao The interface contains all of the methods a given DAO will need to implement as well as the return types
+ * for each method
+ */
 interface LikeDao{
 
     //JSDOC is not playing nice with interfaces so moved all explanation to the DAO

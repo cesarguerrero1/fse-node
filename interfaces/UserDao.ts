@@ -15,7 +15,7 @@
 import User from "../models/User";
 
 /**
- * @interface userDAO The interface contains all of the methods a given DAO will need to implement as well as the return types
+ * @interface UserDao The interface contains all of the methods a given DAO will need to implement as well as the return types
  * for each method
  */
 interface UserDao {
