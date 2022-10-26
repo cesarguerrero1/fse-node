@@ -19,7 +19,7 @@ import Location from "./Location";
  * @class The User Class is used to implement a typical user of the application. (Username, password, name, email, etc.)
  */
 class User {
-    public username: string = '';
+    private username: string = '';
     private password: string = '';
     private firstName: string | null = null;
     private lastName: string | null = null;

@@ -28,8 +28,14 @@ import TuitDao from './daos/TuitDao';
 import LikeController from "./controllers/LikeController";
 import LikeDao from "./daos/LikeDao";
 //Follows
+import FollowController from "./controllers/FollowController";
+import FollowDao from "./daos/FollowDao";
 //Bookmarks
+import BookmarkController from "./controllers/BookmarkController";
+import BookmarkDao from "./daos/BookmarkDao";
 //Messages
+import MessageController from "./controllers/MessageController";
+import MessageDao from "./daos/MessageDao";
 
 //Options for the Database
 const options = {
@@ -43,6 +49,7 @@ const options = {
 }
 //When we are working locally we ned to connect differently to our local database
 //mongoose.connect('mongodb://localhost:27017/tuiter', options);
+
 //Connecting to REMOTE database. Notice that our username and password are hidden within environmental variables
 mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority`, options);
 
@@ -51,8 +58,11 @@ const userController = new UserController(app, new UserDao());
 const tuitController = new TuitController(app, new TuitDao());
 const likeController = new LikeController(app, new LikeDao());
 //Follows
+const followController = new FollowController(app, new FollowDao());
 //Bookmarks
+const bookmarkController = new BookmarkController(app, new BookmarkDao());
 //Messages
+const messageController = new MessageController(app, new MessageDao());
 
 //Defining what port to listen to
 const PORT = 4000;

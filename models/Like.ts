@@ -19,8 +19,8 @@ import User from "./User";
  * as well as the Tuit that they 'liked'
  */
 class Like {  
-    tuit: Tuit;
-    likedBy: User;
+    private tuit: Tuit;
+    private likedBy: User;
 }
 
 export default Like;
