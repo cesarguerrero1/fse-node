@@ -21,7 +21,7 @@ import Message from "../models/Message";
 interface MessageDao{
 
     //JSDOC is not playing nice with interfaces so moved all explanation to the DAO
-    userSendsMessageToUser(uid: string, otherUid: string): Promise<Message>;
+    userSendsMessageToUser(uid: string, otherUid: string, message: Message): Promise<Message>;
 
     findUsersMessagesSent(uid: string): Promise<Message[]>;
 
@@ -29,7 +29,7 @@ interface MessageDao{
 
     userDeleteMessage(mid: string): Promise<any>;
 
-    userEditsMessage(mid: string): Promise<any>;
+    userEditsMessage(mid: string, message: Message): Promise<any>;
 
     findAllMessages(): Promise<Message[]>;
 

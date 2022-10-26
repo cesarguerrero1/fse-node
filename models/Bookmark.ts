@@ -19,8 +19,9 @@ import Tuit from "./Tuit";
  * user can bookmark a given Tuit so they can easily revisit that Tuit later
  */
 class Bookmark{
-    bookmarkedTuit: Tuit;
-    bookmarkedBy: User;
+    private bookmarkedTuit: Tuit;
+    private bookmarkedBy: User;
+    private notes: string;
 }
 
 export default Bookmark;

@@ -31,7 +31,7 @@ interface FollowDao{
 
     deleteAUsersFollows(uid: string): Promise<any>;
 
-    userRanksFollower(fid: string): Promise<any>;
+    userRanksFollower(fid: string, follow: Follow): Promise<any>;
 
 }
 

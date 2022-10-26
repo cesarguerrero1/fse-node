@@ -28,7 +28,7 @@ interface BookmarkDao{
 
     findAllBookmarks(): Promise<Bookmark[]>;
 
-    updateBookmark(bid: string): Promise<any>;
+    updateBookmark(bid: string, bookmark: Bookmark): Promise<any>;
 }
 
 export default BookmarkDao;

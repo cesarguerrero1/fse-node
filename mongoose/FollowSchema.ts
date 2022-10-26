@@ -31,7 +31,8 @@
         type: mongoose.Schema.Types.ObjectId,
         ref: "FollowModel",
         required: true
-    }
+    },
+    rank:{type: Number, default:null}
  }, { collection: 'follows' })
  
  export default FollowSchema;

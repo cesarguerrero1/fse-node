@@ -31,6 +31,10 @@ const BookmarkSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "BookmarkModel",
         required: true
+    },
+    notes: {
+        type: String,
+        default: "";
     }
 }, { collection: 'bookmarks' })
 
