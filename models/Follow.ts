@@ -20,7 +20,7 @@ import User from "./User";
 class Follow {  
     private userFollowed: User;
     private userFollowing: User;
-    private rank: string | null = null;
+    private rank: Number | null = null;
 }
 
 export default Follow;
