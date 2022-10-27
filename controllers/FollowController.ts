@@ -108,7 +108,7 @@ class FollowController implements FollowControllerI{
     /**
      * This function will be delegating the task of updating a Follow record
      * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {RequestObject} req Request Object with a parameter containing the User ID
+     * @param {RequestObject} req Request Object with a parameter containing the User ID and Follow JSON in the body
      * @param {ResponseObject} res Reponse Object from query which in this case contains a JSON of the update status
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
