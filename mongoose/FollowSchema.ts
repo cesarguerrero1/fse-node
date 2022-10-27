@@ -11,17 +11,17 @@
  * that we have defined
  */
 
- import mongoose, { Mongoose } from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
- /**
-  * We are storing the creation of the Mongoose Schema Object within the FollowSchema variable. The Schema
-  * allows us to enforce how data is allowed to be stored in the database
-  * @param {JavascriptObject} schemaObject Object containing name value pairs that represent a schema we want to enforce 
-  * @param {JavascriptObject} collectionObject Object containing (1) name-value pair with the name of the collection that this Schema will be defining
-  * @returns {MongooseSchemaObject} Returns a Mongoose Schema Object
-  */
- 
- const FollowSchema = new mongoose.Schema({
+/**
+ * We are storing the creation of the Mongoose Schema Object within the FollowSchema variable. The Schema
+ * allows us to enforce how data is allowed to be stored in the database
+ * @param {JavascriptObject} schemaObject Object containing name value pairs that represent a schema we want to enforce 
+ * @param {JavascriptObject} collectionObject Object containing (1) name-value pair with the name of the collection that this Schema will be defining
+ * @returns {MongooseSchemaObject} Returns a Mongoose Schema Object
+ */
+
+const FollowSchema = new mongoose.Schema({
     userFollowed: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "FollowModel",
@@ -32,7 +32,7 @@
         ref: "FollowModel",
         required: true
     },
-    rank:{type: Number, default:null}
- }, { collection: 'follows' })
- 
- export default FollowSchema;
+    rank: { type: Number, default: null }
+}, { collection: 'follows' })
+
+export default FollowSchema;
