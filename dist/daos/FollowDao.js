@@ -56,7 +56,7 @@ class FollowDao {
     */
     findPeopleIFollow(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield FollowModel_1.default.find({ userFollowing: uid }).populate("userFollowing", { _id: 1 }).populate("userFollowed", { _id: 1 }).exec();
+            return yield FollowModel_1.default.find({ userFollowing: uid }).exec();
         });
     }
     /**
@@ -67,7 +67,7 @@ class FollowDao {
     */
     findPeopleWhoFollowMe(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield FollowModel_1.default.find({ userFollowed: uid }).populate("userFollowing", { _id: 1 }).populate("userFollowed", { _id: 1 }).exec();
+            return yield FollowModel_1.default.find({ userFollowed: uid }).exec();
         });
     }
     /**
