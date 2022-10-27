@@ -26,14 +26,12 @@ const FollowSchema = new mongoose_1.default.Schema({
     userFollowed: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "FollowModel",
-        required: true
     },
     userFollowing: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "FollowModel",
-        required: true
     },
-    rank: { type: Number, default: null }
+    rank: { type: String, default: null }
 }, { collection: 'follows' });
 exports.default = FollowSchema;
 //# sourceMappingURL=FollowSchema.js.map

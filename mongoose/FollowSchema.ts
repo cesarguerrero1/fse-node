@@ -25,14 +25,12 @@ const FollowSchema = new mongoose.Schema({
     userFollowed: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "FollowModel",
-        required: true
     },
     userFollowing: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "FollowModel",
-        required: true
     },
-    rank: { type: Number, default: null }
+    rank: { type: String, default: null }
 }, { collection: 'follows' })
 
 export default FollowSchema;
