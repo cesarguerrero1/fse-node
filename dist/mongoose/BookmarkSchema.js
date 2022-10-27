@@ -35,7 +35,7 @@ const BookmarkSchema = new mongoose_1.default.Schema({
     },
     notes: {
         type: String,
-        default: ""
+        default: "",
     }
 }, { collection: 'bookmarks' });
 exports.default = BookmarkSchema;
