@@ -49,7 +49,7 @@ class FollowDao implements FollowDaoI {
     * where the User "follows" another user
     */
     async findPeopleIFollow(uid: string): Promise<Follow[]> {
-        return await FollowModel.find({userFollowing: uid}).exec();
+        return await FollowModel.find({userFollowing: uid}).populate("userFollowing").populate("userFollowed").exec();
     }
 
     /**
@@ -59,7 +59,7 @@ class FollowDao implements FollowDaoI {
     * where the User "is being followed" by anotehr user
     */
     async findPeopleWhoFollowMe(uid: string): Promise<Follow[]> {
-        return await FollowModel.find({userFollowed: uid}).exec();
+        return await FollowModel.find({userFollowed: uid}).populate("userFollowing").populate("userFollowed").exec();
     }
 
     /**
