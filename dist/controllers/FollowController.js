@@ -85,7 +85,7 @@ class FollowController {
          * as we will likely just programatically display the content on the screen
          */
         this.userRanksFollower = (req, res) => {
-            this.followDao.userRanksFollower(req.params.uid, req.body).then((follows) => res.json(follows));
+            this.followDao.userRanksFollower(req.params.fid, req.body).then((follows) => res.json(follows));
         };
         this.app = app;
         this.followDao = followDao;

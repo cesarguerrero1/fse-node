@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * user can bookmark a given Tuit so they can easily revisit that Tuit later
  */
 class Bookmark {
+    constructor() {
+        this.notes = '';
+    }
 }
 exports.default = Bookmark;
 //# sourceMappingURL=Bookmark.js.map

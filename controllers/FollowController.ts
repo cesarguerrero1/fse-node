@@ -114,7 +114,7 @@ class FollowController implements FollowControllerI{
      * as we will likely just programatically display the content on the screen
      */
     userRanksFollower = (req: Request, res: Response) => {
-        this.followDao.userRanksFollower(req.params.uid, req.body).then((follows) => res.json(follows));
+        this.followDao.userRanksFollower(req.params.fid, req.body).then((follows) => res.json(follows));
     }
 
 }

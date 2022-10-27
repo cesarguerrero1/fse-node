@@ -30,7 +30,7 @@ const FollowSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "FollowModel",
     },
-    rank: { type: String, default: "0" }
+    rank: { type: String, default: "" }
 }, { collection: 'follows' })
 
 export default FollowSchema;

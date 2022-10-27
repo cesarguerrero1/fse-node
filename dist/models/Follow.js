@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * is following another user and the user that is being followed.
  */
 class Follow {
+    constructor() {
+        this.rank = '';
+    }
 }
 exports.default = Follow;
 //# sourceMappingURL=Follow.js.map

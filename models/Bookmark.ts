@@ -21,7 +21,7 @@ import Tuit from "./Tuit";
 class Bookmark{
     private bookmarkedTuit: Tuit;
     private bookmarkedBy: User;
-    private notes: string;
+    private notes: string = '';
 }
 
 export default Bookmark;
