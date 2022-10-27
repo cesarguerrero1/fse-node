@@ -40,7 +40,7 @@ class MessageDao implements MessageDaoI {
     * @return {Promise<Message[]>} Returns a Promise that when resolved will contain an array of all the Message Objects that a user has sent
     */
     async findUsersMessagesSent(uid: string): Promise<Message[]> {
-        return await MessageModel.find({from: uid}).populate("to", {_id:1, username:1, firstName:1, lastName:1}).exec();
+        return await MessageModel.find({from: uid}).exec();
     }
 
     /**
@@ -49,7 +49,7 @@ class MessageDao implements MessageDaoI {
     * @return {Promise<Message[]>} Returns a Promise that when resolved will contain an array of all the Message Objects that a user has received
     */
     async findUsersMessagesReceived(uid: string): Promise<Message[]> {
-        return await MessageModel.find({to: uid}).populate("from", {_id:1, username:1, firstName:1, lastName:1}).exec();
+        return await MessageModel.find({to: uid}).exec();
     }
 
     /**
@@ -76,7 +76,7 @@ class MessageDao implements MessageDaoI {
     * @return {Promise<Message[]>} Returns a Promise that when resolved will contain an array of all the Message Obejcts in the database
     */
     async findAllMessages(): Promise<Message[]> {
-        return await MessageModel.find().populate("to", {_id:1, username:1, firstName:1, lastName:1}).populate("from", {_id:1, username:1, firstName:1, lastName:1}).exec();
+        return await MessageModel.find().exec();
     }
 
 }

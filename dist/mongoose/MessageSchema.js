@@ -27,12 +27,10 @@ const MessageSchema = new mongoose_1.default.Schema({
     to: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "MessageModel",
-        required: true
     },
     from: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "MessageModel",
-        required: true
     },
     sentOn: { type: Date, default: Date.now() }
 }, { collection: 'messages' });

@@ -91,8 +91,8 @@ class MessageController {
         this.messageDao = messageDao;
         //HTTP Listeners
         this.app.post("/users/:uid/messages/:otherUid", this.userSendsMessageToUser);
-        this.app.get("users/:uid/messages/sent", this.findUsersMessagesSent);
-        this.app.get("users/:uid/messages/received", this.findUsersMessagesReceived);
+        this.app.get("/users/:uid/messages/sent", this.findUsersMessagesSent);
+        this.app.get("/users/:uid/messages/received", this.findUsersMessagesReceived);
         this.app.delete("/messages/:mid", this.userDeleteMessage);
         this.app.put("/messages/:mid", this.userEditsMessage);
         this.app.get("/messages", this.findAllMessages);

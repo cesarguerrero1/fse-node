@@ -45,7 +45,7 @@ class MessageDao {
     */
     findUsersMessagesSent(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield MessageModel_1.default.find({ from: uid }).populate("to", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
+            return yield MessageModel_1.default.find({ from: uid }).exec();
         });
     }
     /**
@@ -55,7 +55,7 @@ class MessageDao {
     */
     findUsersMessagesReceived(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield MessageModel_1.default.find({ to: uid }).populate("from", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
+            return yield MessageModel_1.default.find({ to: uid }).exec();
         });
     }
     /**
@@ -85,7 +85,7 @@ class MessageDao {
     */
     findAllMessages() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield MessageModel_1.default.find().populate("to", { _id: 1, username: 1, firstName: 1, lastName: 1 }).populate("from", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
+            return yield MessageModel_1.default.find().exec();
         });
     }
 }
