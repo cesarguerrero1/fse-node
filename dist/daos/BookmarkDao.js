@@ -55,7 +55,7 @@ class BookmarkDao {
     */
     findAllUsersBookmarks(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield BookmarkModel_1.default.find({ bookMarkedBy: uid }).populate("bookmarkedTuit", { _id: 1, tuit: 1, postedOn: 1 }).exec();
+            return yield BookmarkModel_1.default.find({ bookmarkedBy: uid }).exec();
         });
     }
     /**
@@ -64,7 +64,7 @@ class BookmarkDao {
     */
     findAllBookmarks() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield BookmarkModel_1.default.find().populate("bookmarkedTuit", { _id: 1, tuit: 1, postedOn: 1 }).populate("bookmarkedBy", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
+            return yield BookmarkModel_1.default.find().exec();
         });
     }
     /**

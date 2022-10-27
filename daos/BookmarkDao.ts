@@ -48,7 +48,7 @@ class BookmarkDao implements BookmarkDaoI {
     * @return {Promise<Bookmark[]>} Returns a Promise that when resolved will contain an array of all the Bookmark Objects associated with the User
     */
     async findAllUsersBookmarks(uid: string): Promise<Bookmark[]> {
-        return await BookmarkModel.find({bookMarkedBy: uid}).populate("bookmarkedTuit", {_id:1, tuit:1, postedOn:1}).exec();
+        return await BookmarkModel.find({bookmarkedBy: uid}).exec();
     }
 
     /**
@@ -56,7 +56,7 @@ class BookmarkDao implements BookmarkDaoI {
     * @return {Promise<Bookmark[]>} Returns a Promise that when resolved will contain an array of all the Bookmark Obejcts in the database
     */
     async findAllBookmarks(): Promise<Bookmark[]> {
-        return await BookmarkModel.find().populate("bookmarkedTuit", {_id:1, tuit:1, postedOn:1}).populate("bookmarkedBy", {_id:1, username:1, firstName:1, lastName:1}).exec();
+        return await BookmarkModel.find().exec();
     }
 
     /**
