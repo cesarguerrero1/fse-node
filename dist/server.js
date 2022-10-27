@@ -30,8 +30,14 @@ const TuitDao_1 = __importDefault(require("./daos/TuitDao"));
 const LikeController_1 = __importDefault(require("./controllers/LikeController"));
 const LikeDao_1 = __importDefault(require("./daos/LikeDao"));
 //Follows
+const FollowController_1 = __importDefault(require("./controllers/FollowController"));
+const FollowDao_1 = __importDefault(require("./daos/FollowDao"));
 //Bookmarks
+const BookmarkController_1 = __importDefault(require("./controllers/BookmarkController"));
+const BookmarkDao_1 = __importDefault(require("./daos/BookmarkDao"));
 //Messages
+const MessageController_1 = __importDefault(require("./controllers/MessageController"));
+const MessageDao_1 = __importDefault(require("./daos/MessageDao"));
 //Options for the Database
 const options = {
     useNewUrlParser: true,
@@ -51,8 +57,11 @@ const userController = new UserController_1.default(app, new UserDao_1.default()
 const tuitController = new TuitController_1.default(app, new TuitDao_1.default());
 const likeController = new LikeController_1.default(app, new LikeDao_1.default());
 //Follows
+const followController = new FollowController_1.default(app, new FollowDao_1.default());
 //Bookmarks
+const bookmarkController = new BookmarkController_1.default(app, new BookmarkDao_1.default());
 //Messages
+const messageController = new MessageController_1.default(app, new MessageDao_1.default());
 //Defining what port to listen to
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);
