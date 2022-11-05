@@ -72,6 +72,15 @@ class UserDao implements UserDaoI {
         //Update a User object with the given ID
         return await UserModel.updateOne({ _id: uid }, { $set: user });
     }
+
+    //Adding the two new functions
+    async deleteAllUsers(): Promise<any>{
+        return await UserModel.deleteMany();
+    }
+
+    async deleteUsersByUsername(username: string): Promise<any>{
+        return await UserModel.deleteOne({username: username});
+    }
 }
 
 export default UserDao;

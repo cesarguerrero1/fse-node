@@ -47,7 +47,7 @@ class UserController {
         this.findUserById = (req, res) => 
         //We are trying to find a specific user so we need to look at the parameters
         //stored within our request to get the provided ID
-        this.userDao.findUserById(req.params.userid).then(user => res.json(user));
+        this.userDao.findUserById(req.params.uid).then(user => res.json(user));
         /**
          * This function will be delegating the task of creating a new user in the database
          * to the DAO and once the DAO returns the appropriate data the controller will do the rest
@@ -69,7 +69,7 @@ class UserController {
          * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
          * as we will likely just programatically display the content on the screen
          */
-        this.deleteUser = (req, res) => this.userDao.deleteUser(req.params.userid).then(status => res.json(status));
+        this.deleteUser = (req, res) => this.userDao.deleteUser(req.params.uid).then(status => res.json(status));
         /**
          * This function will be delegating the task of update a specific User record in the database
          * to the DAO and once the DAO returns the appropriate data the controller will do the rest
@@ -78,15 +78,25 @@ class UserController {
          * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
          * as we will likely just programatically display the content on the screen
          */
-        this.updateUser = (req, res) => this.userDao.updateUser(req.params.userid, req.body).then(status => res.json(status));
+        this.updateUser = (req, res) => this.userDao.updateUser(req.params.uid, req.body).then(status => res.json(status));
+        //Adding the two new functions
+        this.deleteAllUsers = (req, res) => {
+            return this.userDao.deleteAllUsers().then(status => res.json(status));
+        };
+        this.deleteUsersByUsername = (req, res) => {
+            return this.userDao.deleteUsersByUsername(req.params.username).then(status => res.json(status));
+        };
         this.app = app;
         this.userDao = userDao;
         //We are listening for these Type of HTTP Requests at these paths and when we get the given request, call the specified function 
         this.app.get('/users', this.findAllUsers);
-        this.app.get('/users/:userid', this.findUserById);
+        this.app.get('/users/:uid', this.findUserById);
         this.app.post('/users', this.createUser);
-        this.app.delete('/users/:userid', this.deleteUser);
-        this.app.put('/users/:userid', this.updateUser);
+        this.app.delete('/users/:uid', this.deleteUser);
+        this.app.put('/users/:uid', this.updateUser);
+        //Added these as they were implemented in the source code for A3
+        this.app.delete('/users', this.deleteAllUsers);
+        this.app.delete('/users/username/:username/delete', this.deleteUsersByUsername);
     }
 }
 exports.default = UserController;

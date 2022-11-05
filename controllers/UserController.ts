@@ -40,10 +40,13 @@ class UserController implements UserControllerI {
         
         //We are listening for these Type of HTTP Requests at these paths and when we get the given request, call the specified function 
         this.app.get('/users', this.findAllUsers);
-        this.app.get('/users/:userid', this.findUserById);
+        this.app.get('/users/:uid', this.findUserById);
         this.app.post('/users', this.createUser);
-        this.app.delete('/users/:userid', this.deleteUser);
-        this.app.put('/users/:userid', this.updateUser);
+        this.app.delete('/users/:uid', this.deleteUser);
+        this.app.put('/users/:uid', this.updateUser);
+        //Added these as they were implemented in the source code for A3
+        this.app.delete('/users', this.deleteAllUsers);
+        this.app.delete('/users/username/:username/delete', this.deleteUsersByUsername);
     }
 
     /**
@@ -73,7 +76,7 @@ class UserController implements UserControllerI {
     findUserById = (req: Request, res: Response) =>
         //We are trying to find a specific user so we need to look at the parameters
         //stored within our request to get the provided ID
-        this.userDao.findUserById(req.params.userid).then(user => res.json(user));
+        this.userDao.findUserById(req.params.uid).then(user => res.json(user));
     
     /**
      * This function will be delegating the task of creating a new user in the database
@@ -98,7 +101,7 @@ class UserController implements UserControllerI {
      * as we will likely just programatically display the content on the screen
      */
     deleteUser = (req: Request, res: Response) =>
-        this.userDao.deleteUser(req.params.userid).then(status => res.json(status));
+        this.userDao.deleteUser(req.params.uid).then(status => res.json(status));
 
     /**
      * This function will be delegating the task of update a specific User record in the database
@@ -109,7 +112,17 @@ class UserController implements UserControllerI {
      * as we will likely just programatically display the content on the screen
      */
     updateUser = (req: Request, res: Response) =>
-        this.userDao.updateUser(req.params.userid, req.body).then(status => res.json(status));
+        this.userDao.updateUser(req.params.uid, req.body).then(status => res.json(status));
+
+    //Adding the two new functions
+    deleteAllUsers = (req: Request, res: Response) => {
+        return this.userDao.deleteAllUsers().then(status => res.json(status));
+    }
+
+    deleteUsersByUsername = (req: Request, res: Response) => {
+        return this.userDao.deleteUsersByUsername(req.params.username).then(status => res.json(status));
+    }
+
 }
 
 export default UserController;

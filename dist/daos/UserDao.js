@@ -81,6 +81,17 @@ class UserDao {
             return yield UserModel_1.default.updateOne({ _id: uid }, { $set: user });
         });
     }
+    //Adding the two new functions
+    deleteAllUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield UserModel_1.default.deleteMany();
+        });
+    }
+    deleteUsersByUsername(username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield UserModel_1.default.deleteOne({ username: username });
+        });
+    }
 }
 exports.default = UserDao;
 //# sourceMappingURL=UserDao.js.map
