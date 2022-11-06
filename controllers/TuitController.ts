@@ -21,7 +21,7 @@ import TuitControllerI from "../interfaces/TuitController";
  * in order to present it to the client appropriately.
  * @implements {TuitControllerI}
  */
-class TuitController implements TuitControllerI{
+class TuitController implements TuitControllerI {
 
     //Just like the UserController we need to access the app and DAO
     private app: Express;
@@ -33,17 +33,17 @@ class TuitController implements TuitControllerI{
      * @param app The instance of our Express Application
      * @param tuitDao The DAO that will allow us to interact with the database
      */
-    constructor(app:Express, tuitDao: TuitDao){
+    constructor(app: Express, tuitDao: TuitDao) {
         this.app = app;
         this.tuitDao = tuitDao;
 
         //HTTP Listeners
         this.app.get('/tuits', this.findAllTuits);
-        this.app.get('/tuits/:tid', this.findTuitById);
         this.app.get('/users/:uid/tuits', this.findTuitsByUser);
-        this.app.post('/tuits', this.createTuit);
-        this.app.delete('/tuits/:tid', this.deleteTuit);
+        this.app.get('/tuits/:tid', this.findTuitById);
+        this.app.post('users/:uid/tuits', this.createTuitByUser);
         this.app.put('/tuits/:tid', this.updateTuit);
+        this.app.delete('/tuits/:tid', this.deleteTuit);
     }
 
     /**
@@ -54,25 +54,12 @@ class TuitController implements TuitControllerI{
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    findAllTuits = (req:Request, res:Response) => {
+    findAllTuits = (req: Request, res: Response) => {
         //As defined in the constructor, this function is called when a given HTTP request occurs
         //In this case the program is attempting to see all the Tuits in our database so we call
         //on the DAO to do the heavy lifting. Once the work is done, we consume the Promise and display
         //the content to the user
-        this.tuitDao.findAllTuits().then((tuits)=>res.json(tuits));
-    }
-
-    /**
-     * This function will be delegating the task of finding a given Tuit using its ID within the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {RequestObject} req Request object which contains a parameter for the Tuit ID
-     * @param {ResponseObject} res Reponse Object from query which in this case contains a single JSON of the Tuit in question
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
-    findTuitById = (req:Request, res:Response) => {
-        //The ID for the Tuit is provided within the parameters field within the request object
-        this.tuitDao.findTuitById(req.params.tid).then((tuit) => res.json(tuit));
+        this.tuitDao.findAllTuits().then((tuits) => res.json(tuits));
     }
 
     /**
@@ -83,8 +70,21 @@ class TuitController implements TuitControllerI{
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    findTuitsByUser = (req:Request, res:Response) => {
+    findTuitsByUser = (req: Request, res: Response) => {
         this.tuitDao.findTuitsByUser(req.params.uid).then((tuits) => res.json(tuits));
+    }
+
+    /**
+     * This function will be delegating the task of finding a given Tuit using its ID within the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req Request object which contains a parameter for the Tuit ID
+     * @param {ResponseObject} res Reponse Object from query which in this case contains a single JSON of the Tuit in question
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
+    findTuitById = (req: Request, res: Response) => {
+        //The ID for the Tuit is provided within the parameters field within the request object
+        this.tuitDao.findTuitById(req.params.tid).then((tuit) => res.json(tuit));
     }
 
     /**
@@ -95,23 +95,11 @@ class TuitController implements TuitControllerI{
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    createTuit = (req:Request, res:Response) => {
+    createTuitByUser = (req: Request, res: Response) => {
         //Since we are creating a Tuit (whose information is stored in an object) we need
-        //to include that object within the body of the request as opposed to the parameters
-        this.tuitDao.createTuit(req.body).then((tuit)=> res.json(tuit));
-    } 
-
-    /**
-     * This function will be delegating the task of deleting a Tuit record from the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {RequestObject} req Request object which contains a parameter for the Tuit ID
-     * @param {ResponseObject} res Reponse Object from query which in this case contains a JSON with a status update
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
-    deleteTuit = (req:Request, res:Response) => {
-        this.tuitDao.deleteTuit(req.params.tid).then((status) => res.json(status));
-    } 
+        //to include that object within the body of the request. We also include the id of the user creating the Tuit
+        this.tuitDao.createTuitByUser(req.params.uid, req.body).then((tuit) => res.json(tuit));
+    }
 
     /**
      * This function will be delegating the task of updating a Tuit record in the database
@@ -121,9 +109,22 @@ class TuitController implements TuitControllerI{
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    updateTuit = (req:Request, res:Response) => {
+    updateTuit = (req: Request, res: Response) => {
         this.tuitDao.updateTuit(req.params.tid, req.body).then((status) => res.json(status));
     }
+
+    /**
+     * This function will be delegating the task of deleting a Tuit record from the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req Request object which contains a parameter for the Tuit ID
+     * @param {ResponseObject} res Reponse Object from query which in this case contains a JSON with a status update
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
+    deleteTuit = (req: Request, res: Response) => {
+        this.tuitDao.deleteTuit(req.params.tid).then((status) => res.json(status));
+    }
+
 }
 
 export default TuitController;

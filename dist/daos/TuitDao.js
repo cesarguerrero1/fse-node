@@ -37,17 +37,6 @@ class TuitDao {
         });
     }
     /**
-    * Asynchronous function to find a specific Tuit Object within a database using its ID
-    * @param {String} tid A string that represents the unique ID of the Tuit within the database
-    * @return {Promise<Tuit>} Returns a Promise that when resolved will contain a single Tuit object
-    */
-    findTuitById(tid) {
-        return __awaiter(this, void 0, void 0, function* () {
-            //Search the database and find the Tuit Object with the given ID
-            return yield TuitModel_1.default.findById(tid).populate("postedBy", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
-        });
-    }
-    /**
     * Asynchronous function to find all Tuit Objects belonging to a given User
     * @param {String} uid A string that represent the Users unique ID
     * @return {Promise<Tuit[]>} Returns a Promise that when resolved will contain an array of all the Tuit Objects belonging to the User with the given unique ID
@@ -61,11 +50,22 @@ class TuitDao {
         });
     }
     /**
+    * Asynchronous function to find a specific Tuit Object within a database using its ID
+    * @param {String} tid A string that represents the unique ID of the Tuit within the database
+    * @return {Promise<Tuit>} Returns a Promise that when resolved will contain a single Tuit object
+    */
+    findTuitById(tid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //Search the database and find the Tuit Object with the given ID
+            return yield TuitModel_1.default.findById(tid).populate("postedBy", { _id: 1, username: 1, firstName: 1, lastName: 1 }).exec();
+        });
+    }
+    /**
     * Asynchronous function to create a Tuit record within the database
     * @param {TuitObject} tuit A Tuit object that you wish to insert into the database
     * @return {Promise<Tuit>}  Returns a Promise that when resolved will contain the newly created Tuit Object
     */
-    createTuit(tuit) {
+    createTuitByUser(uid, tuit) {
         return __awaiter(this, void 0, void 0, function* () {
             //Insert a new Tuit Object into the database
             return yield TuitModel_1.default.create(tuit);

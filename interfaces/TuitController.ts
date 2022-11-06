@@ -29,7 +29,7 @@ interface TuitController {
     findTuitsByUser(req: Request, res: Response): void;
 
     //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
-    createTuit(req: Request, res: Response): void;
+    createTuitByUser(req: Request, res: Response): void;
 
     //JSDOC is not playing nice with interfaces so moved all explanation to the Controller
     updateTuit(req: Request, res: Response): void;

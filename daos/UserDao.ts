@@ -22,7 +22,7 @@ import UserDaoI from "../interfaces/UserDao"; //We want all of our DAOs to adher
  * @implements {UserDaoI}
  */
 class UserDao implements UserDaoI {
-    
+
     /**
      * Asynchronous function to find all User Objects within a database
      * @return {Promise<User[]>} Returns a Promise that when resolved will contain an array of all the User Objects within the Database
@@ -41,7 +41,7 @@ class UserDao implements UserDaoI {
         //Search the database and find the User Object with the given ID
         return await UserModel.findById(uid);
     }
-    
+
     /**
      * Asynchronous function to create a User record within the database
      * @param {UserObject} user A User object that you wish to insert into the database
@@ -53,16 +53,6 @@ class UserDao implements UserDaoI {
     }
 
     /**
-     * Asynchronous function to delete a User record within the database using their ID
-     * @param {String} uid A string that represents the Users unique ID within the database
-     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted deletion
-     */
-    async deleteUser(uid: string): Promise<any> {
-        //Delete a User object with the given ID from the database
-        return await UserModel.deleteOne({ _id: uid });
-    }
-    
-    /**
      * Asynchronous function to find and update a specific User Object within a database
      * @param {String} uid A string that represents the Users unique ID within the database
      * @param {UserObject} user A User Object in the form of a JSON object that contains all name-value pairs for information you wish to update
@@ -73,13 +63,23 @@ class UserDao implements UserDaoI {
         return await UserModel.updateOne({ _id: uid }, { $set: user });
     }
 
+    /**
+     * Asynchronous function to delete a User record within the database using their ID
+     * @param {String} uid A string that represents the Users unique ID within the database
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted deletion
+     */
+    async deleteUser(uid: string): Promise<any> {
+        //Delete a User object with the given ID from the database
+        return await UserModel.deleteOne({ _id: uid });
+    }
+
     //Adding the two new functions
-    async deleteAllUsers(): Promise<any>{
+    async deleteAllUsers(): Promise<any> {
         return await UserModel.deleteMany();
     }
 
-    async deleteUsersByUsername(username: string): Promise<any>{
-        return await UserModel.deleteOne({username: username});
+    async deleteUsersByUsername(username: string): Promise<any> {
+        return await UserModel.deleteOne({ username: username });
     }
 }
 

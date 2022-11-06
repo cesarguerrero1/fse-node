@@ -30,7 +30,7 @@ interface TuitDao {
    findTuitById(tid: string): Promise<Tuit>;
 
    //JSDOC is not playing nice with interfaces so moved all explanation to the DAO
-   createTuit(tuit: Tuit): Promise<Tuit>;
+   createTuitByUser(uid: string, tuit: Tuit): Promise<Tuit>;
 
    //JSDOC is not playing nice with interfaces so moved all explanation to the DAO
    deleteTuit(tid: string): Promise<any>;

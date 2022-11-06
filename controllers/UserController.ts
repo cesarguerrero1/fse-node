@@ -27,7 +27,7 @@ class UserController implements UserControllerI {
     private app: Express;
     //We are expecting a DAO of TYPE UserDAO
     private userDao: UserDao;
-    
+
     /**
      * This class will be instaniated within our server file and we will need
      * to connect an instance of both our application and the DAO in question
@@ -37,13 +37,13 @@ class UserController implements UserControllerI {
     constructor(app: Express, userDao: UserDao) {
         this.app = app;
         this.userDao = userDao;
-        
+
         //We are listening for these Type of HTTP Requests at these paths and when we get the given request, call the specified function 
         this.app.get('/users', this.findAllUsers);
         this.app.get('/users/:uid', this.findUserById);
         this.app.post('/users', this.createUser);
-        this.app.delete('/users/:uid', this.deleteUser);
         this.app.put('/users/:uid', this.updateUser);
+        this.app.delete('/users/:uid', this.deleteUser);
         //Added these as they were implemented in the source code for A3
         this.app.delete('/users', this.deleteAllUsers);
         this.app.delete('/users/username/:username/delete', this.deleteUsersByUsername);
@@ -77,7 +77,7 @@ class UserController implements UserControllerI {
         //We are trying to find a specific user so we need to look at the parameters
         //stored within our request to get the provided ID
         this.userDao.findUserById(req.params.uid).then(user => res.json(user));
-    
+
     /**
      * This function will be delegating the task of creating a new user in the database
      * to the DAO and once the DAO returns the appropriate data the controller will do the rest
@@ -86,10 +86,22 @@ class UserController implements UserControllerI {
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    createUser = (req: Request, res: Response) =>{
+    createUser = (req: Request, res: Response) => {
         //Since we are creating a user (whose information is stored in an object) we need
         //to include that object within the body of the request as opposed to the parameters
         return this.userDao.createUser(req.body).then(user => res.json(user));
+    }
+
+    /**
+     * This function will be delegating the task of update a specific User record in the database
+     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
+     * @param {RequestObject} req Request Object with a parameter containing the User ID as well as a User Object in the body of the request
+     * @param {ResponseObject} res Reponse Object from query which in this case contains a JSON with a status update for the User Udpdate
+     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
+     * as we will likely just programatically display the content on the screen
+     */
+    updateUser = (req: Request, res: Response) => {
+        return this.userDao.updateUser(req.params.uid, req.body).then(status => res.json(status));
     }
 
     /**
@@ -100,19 +112,9 @@ class UserController implements UserControllerI {
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    deleteUser = (req: Request, res: Response) =>
-        this.userDao.deleteUser(req.params.uid).then(status => res.json(status));
-
-    /**
-     * This function will be delegating the task of update a specific User record in the database
-     * to the DAO and once the DAO returns the appropriate data the controller will do the rest
-     * @param {RequestObject} req Request Object with a parameter containing the User ID as well as a User Object in the body of the request
-     * @param {ResponseObject} res Reponse Object from query which in this case contains a JSON with a status update for the User Udpdate
-     * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
-     * as we will likely just programatically display the content on the screen
-     */
-    updateUser = (req: Request, res: Response) =>
-        this.userDao.updateUser(req.params.uid, req.body).then(status => res.json(status));
+    deleteUser = (req: Request, res: Response) => {
+        return this.userDao.deleteUser(req.params.uid).then(status => res.json(status));
+    }
 
     //Adding the two new functions
     deleteAllUsers = (req: Request, res: Response) => {

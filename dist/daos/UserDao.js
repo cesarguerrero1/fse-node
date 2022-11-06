@@ -59,17 +59,6 @@ class UserDao {
         });
     }
     /**
-     * Asynchronous function to delete a User record within the database using their ID
-     * @param {String} uid A string that represents the Users unique ID within the database
-     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted deletion
-     */
-    deleteUser(uid) {
-        return __awaiter(this, void 0, void 0, function* () {
-            //Delete a User object with the given ID from the database
-            return yield UserModel_1.default.deleteOne({ _id: uid });
-        });
-    }
-    /**
      * Asynchronous function to find and update a specific User Object within a database
      * @param {String} uid A string that represents the Users unique ID within the database
      * @param {UserObject} user A User Object in the form of a JSON object that contains all name-value pairs for information you wish to update
@@ -79,6 +68,17 @@ class UserDao {
         return __awaiter(this, void 0, void 0, function* () {
             //Update a User object with the given ID
             return yield UserModel_1.default.updateOne({ _id: uid }, { $set: user });
+        });
+    }
+    /**
+     * Asynchronous function to delete a User record within the database using their ID
+     * @param {String} uid A string that represents the Users unique ID within the database
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted deletion
+     */
+    deleteUser(uid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //Delete a User object with the given ID from the database
+            return yield UserModel_1.default.deleteOne({ _id: uid });
         });
     }
     //Adding the two new functions
