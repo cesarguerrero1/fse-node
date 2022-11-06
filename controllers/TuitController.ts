@@ -41,7 +41,7 @@ class TuitController implements TuitControllerI {
         this.app.get('/tuits', this.findAllTuits);
         this.app.get('/users/:uid/tuits', this.findTuitsByUser);
         this.app.get('/tuits/:tid', this.findTuitById);
-        this.app.post('users/:uid/tuits', this.createTuitByUser);
+        this.app.post('/users/:uid/tuits', this.createTuitByUser);
         this.app.put('/tuits/:tid', this.updateTuit);
         this.app.delete('/tuits/:tid', this.deleteTuit);
     }
