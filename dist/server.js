@@ -49,7 +49,7 @@ app.use(cors({
 app.use(express_1.default.json());
 //Options for our Session
 const sess = {
-    secret: "SECRET",
+    secret: process.env.SECRET,
     cookie: {
         secure: false
     }
