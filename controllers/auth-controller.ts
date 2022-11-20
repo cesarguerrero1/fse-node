@@ -63,17 +63,21 @@ function AuthenticationController(app: Express, userDao: UserDao){
 
     //Log the user in
     async function login(req: Request, res: Response){
+        console.log("We are getting here!");
+        console.log(req.session);
         const user = req.body;
         const username = user.username;
         const password = user.password;
         const existingUser = await userDao.findUserByUsername(username);
+        console.log(existingUser);
 
         if(!existingUser){
+            console.log("user doesn't exist!??!");
             return res.sendStatus(403);
         }
         
         const match = await bcrypt.compare(password, existingUser.password);
-
+        console.log(match);
         if(match){
             existingUser.password = "*****";
             req.session['profile'] = existingUser;
