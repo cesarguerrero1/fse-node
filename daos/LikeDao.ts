@@ -60,6 +60,16 @@ class LikeDao implements LikeDaoI{
     async userUnlikesTuit (tid: string, uid: string): Promise<any>{
         return await LikeModel.deleteOne({tuit:tid, likedBy:uid});
     }
+
+    //New Function
+    async findATuitLikedByUser(tid: string, uid: string): Promise<any>{
+        return await LikeModel.findOne({tuit:tid}, {likedBy: uid});
+    }
+
+    //New Function
+    async countHowManyLikedTuit(tid: string): Promise<any>{
+        return await LikeModel.count({tuit:tid});
+    }
     
 }
 

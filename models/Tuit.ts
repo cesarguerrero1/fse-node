@@ -21,6 +21,7 @@ class Tuit {
     private tuit: string = ''; //When users make a Tuit they need to provide a string
     private postedOn: Date = new Date(); //Each Tuit needs to have a timestamp of when it was created
     private postedBy: User | null=null; //Each Tuit has a User associated with them
+    private stats: {} | null=null; //Each Tuit has stats associated with it
 }
 
 export default Tuit

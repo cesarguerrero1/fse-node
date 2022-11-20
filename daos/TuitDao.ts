@@ -85,6 +85,11 @@ class TuitDao implements TuitDaoI {
         return await TuitModel.updateOne({ _id: tid }, { $set: tuit });
     }
 
+    //New Function
+    async updateLikes(tid: string, newStats: {}){
+        return await TuitModel.updateOne({_id: tid}, {$set: {stats: newStats}})
+    }
+
 }
 
 export default TuitDao;

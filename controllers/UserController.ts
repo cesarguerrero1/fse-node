@@ -125,6 +125,11 @@ class UserController implements UserControllerI {
         return this.userDao.deleteUsersByUsername(req.params.username).then(status => res.json(status));
     }
 
+    //Adding a new function
+    findUserByUsername = (req: Request, res: Response) => {
+        return this.userDao.findUserByUsername(req.body.username).then((user)=> res.json(user));
+    }
+
 }
 
 export default UserController;

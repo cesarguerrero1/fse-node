@@ -13,6 +13,7 @@
 //Imports
 import { Request, Response, Express } from "express";
 import LikeDao from "../daos/LikeDao";
+import TuitDao from "../daos/TuitDao";
 import LikeControllerI from "../interfaces/LikeController";
 
 /**
@@ -25,6 +26,7 @@ class LikeController implements LikeControllerI{
 
     private app: Express;
     private likeDao: LikeDao;
+    private tuitDao: TuitDao;
 
     /**
      * This class will be instaniated within our server file and we will need
@@ -32,15 +34,17 @@ class LikeController implements LikeControllerI{
      * @param app The instance of our Express Application
      * @param LikeDao The DAO that will allow us to interact with the database
      */
-    constructor(app: Express, likeDao: LikeDao) {
+    constructor(app: Express, likeDao: LikeDao, tuitDao: TuitDao) {
         this.app = app;
         this.likeDao = likeDao;
+        this.tuitDao = tuitDao;
 
         //HTTP Listeners
         this.app.get('/users/:uid/likes', this.findAllTuitsLikedByUser);
         this.app.get('/tuits/:tid/likes', this.findAllUsersThatLikedTuit);
         this.app.post('/users/:uid/likes/:tid', this.userLikesTuit);
         this.app.delete('/users/:uid/likes/:tid', this.userUnlikesTuit);
+        this.app.put('/users/:uid/likes/:tid', this.userTogglesTuitLikes);
     }
 
     /**
@@ -89,6 +93,43 @@ class LikeController implements LikeControllerI{
      */
     userUnlikesTuit = (req: Request, res: Response) => {
         this.likeDao.userUnlikesTuit(req.params.tid, req.params.uid).then((likes) => res.json(likes));
+    }
+
+    //New Function
+    findATuitLikedByUser(req: Request, res: Response){
+        return this.likeDao.findATuitLikedByUser(req.params.tid, req.params.uid).then((like) => res.json(like));
+    }
+
+    //New Function
+    countHowManyLikedTuit(req: Request, res: Response){
+        return this.likeDao.countHowManyLikedTuit(req.params.tid).then((count) => res.send(count));
+    }
+
+    //New Function
+    userTogglesTuitLikes = async(req: Request, res: Response) => {
+        const uid = req.params.uid;
+        const tid = req.params.tid;
+        let profile: any;
+        profile = req.session['profile'];
+        const userId = uid === "me" && profile ? profile._id : uid;
+        try{
+            const userAlreadyLikedTuit = await this.likeDao.findATuitLikedByUser(tid, userId);
+            const howManyLikedTuit = await this.likeDao.countHowManyLikedTuit(tid);
+            let tuit: any; 
+            tuit = await this.tuitDao.findTuitById(tid);
+            if (userAlreadyLikedTuit) {
+                await this.likeDao.userUnlikesTuit(tid, userId);
+                tuit.stats.likes = howManyLikedTuit - 1;
+            }else {
+                await this.likeDao.userLikesTuit(userId, tid);
+                tuit.stats.likes = howManyLikedTuit + 1;
+            };
+            //After we either liked or unliked a Tuit, update the stats for that Tuit
+            await this.tuitDao.updateLikes(tid, tuit.stats);
+            res.sendStatus(200);
+        }catch(e){
+            res.sendStatus(404);
+        }
     }
         
 }

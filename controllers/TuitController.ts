@@ -70,8 +70,22 @@ class TuitController implements TuitControllerI {
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    findTuitsByUser = (req: Request, res: Response) => {
-        this.tuitDao.findTuitsByUser(req.params.uid).then((tuits) => res.json(tuits));
+    findTuitsByUser = async (req: Request, res: Response) => {
+        let profile : any
+        profile = req.session['profile'];
+        let userId = req.params.uid;
+        if(req.params.uid === "me" && profile){
+            userId = profile ._id
+            const userTuits = await this.tuitDao.findTuitsByUser(userId);
+            return res.send(["loggedIn", userTuits])
+        }else{
+            if(userId === "me"){
+                return res.send(["notLoggedIn"])
+            }else{
+                const userTuits = await this.tuitDao.findTuitsByUser(userId);
+                return res.send(["loggedIn", userTuits])
+            }
+        }
     }
 
     /**
@@ -95,10 +109,25 @@ class TuitController implements TuitControllerI {
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    createTuitByUser = (req: Request, res: Response) => {
+    createTuitByUser = async (req: Request, res: Response) => {
         //Since we are creating a Tuit (whose information is stored in an object) we need
         //to include that object within the body of the request. We also include the id of the user creating the Tuit
-        this.tuitDao.createTuitByUser(req.params.uid, req.body).then((tuit) => res.json(tuit));
+        let profile : any
+        profile = req.session['profile'];
+        let userId = req.params.uid;
+
+        if(req.params.uid === "me" && profile){
+            userId = profile ._id
+            const newTuit = await this.tuitDao.createTuitByUser(userId, {...req.body, postedBy: userId})
+            return res.json(newTuit);
+        }else{
+            if(userId === "me"){
+                return res.send({});
+            }else{
+                const newTuit = await this.tuitDao.createTuitByUser(userId, {...req.body, postedBy: userId})
+                return res.json(newTuit);
+            }
+        }
     }
 
     /**

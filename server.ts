@@ -13,12 +13,8 @@
  */
 
 //Imports and housekeeping
-import express, {Request, Response} from "express";
+import express from "express";
 import mongoose from "mongoose";
-const cors = require('cors')
-const app = express();
-app.use(cors());
-app.use(express.json());
 
 //Controllers and DAO Imports
 import UserController from './controllers/UserController';
@@ -36,6 +32,46 @@ import BookmarkDao from "./daos/BookmarkDao";
 //Messages
 import MessageController from "./controllers/MessageController";
 import MessageDao from "./daos/MessageDao";
+//Authentication
+import AuthenticationController from "./controllers/auth-controller";
+
+//Importing the Session Stuff
+const session = require('express-session');
+
+//If you want to store custom things in Sessions, you need to perform declaration-merging
+declare module "express-session"{
+    interface SessionData{
+        profile: {};
+    }
+}
+
+//Importing more things!
+const cors = require('cors')
+const app = express();
+//This may need to be commented out when we go to production! 
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+}));
+app.use(express.json());
+
+//Options for our Session
+const sess = {
+    secret: "SECRET",
+    cookie: {
+        secure: false
+    }
+}
+
+//Secure Cookies only work with HTTPS
+if(process.env.ENV === "PRODUCTION"){
+    app.set('trust proxy', 1)
+    sess.cookie.secure = true
+}
+
+app.use(session(sess))
+
+//Fix the RESPONSE issue
 
 //Options for the Database
 const options = {
@@ -51,18 +87,23 @@ const options = {
 //mongoose.connect('mongodb://localhost:27017/tuiter', options);
 
 //Connecting to REMOTE database. Notice that our username and password are hidden within environmental variables
-mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority`, options);
+mongoose.connect(`mongodb+srv://${process.env.FSE_USERNAME}:${process.env.FSE_PASSWORD}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority`, options);
 
 //Controller Instantiation
-const userController = new UserController(app, new UserDao());
-const tuitController = new TuitController(app, new TuitDao());
-const likeController = new LikeController(app, new LikeDao());
+const userDao = new UserDao();
+const tuitDao = new TuitDao();
+const userController = new UserController(app, userDao);
+const tuitController = new TuitController(app, tuitDao);
+const likeController = new LikeController(app, new LikeDao(), tuitDao);
 //Follows
 const followController = new FollowController(app, new FollowDao());
 //Bookmarks
 const bookmarkController = new BookmarkController(app, new BookmarkDao());
 //Messages
 const messageController = new MessageController(app, new MessageDao());
+
+//Importing our new controller
+AuthenticationController(app, userDao);
 
 //Defining what port to listen to
 const PORT = 4000;
