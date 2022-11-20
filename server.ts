@@ -60,7 +60,7 @@ app.use(cors({
 const sess = {
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         secure: false,
         httpOnly: true,
