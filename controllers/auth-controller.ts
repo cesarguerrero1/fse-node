@@ -45,9 +45,6 @@ function AuthenticationController(app: Express, userDao: UserDao){
     function profile(req: Request, res: Response){
         let profile: any; 
         profile = req.session['profile'];
-        console.log("Looking in the profile now!");
-        console.log(req.session);
-        console.log(req.sessionID);
 
         //If a session exists then then return the profile so we can display it onscreen!
         if(profile){
@@ -67,16 +64,14 @@ function AuthenticationController(app: Express, userDao: UserDao){
 
     //Log the user in
     async function login(req: Request, res: Response){
-        console.log("We are getting here!");
-        console.log(req.session);
-        console.log(req.sessionID);
+       
         const user = req.body;
         const username = user.username;
         const password = user.password;
         const existingUser = await userDao.findUserByUsername(username);
 
         if(!existingUser){
-            console.log("user doesn't exist!??!");
+            
             return res.sendStatus(403);
         }
         
@@ -84,12 +79,8 @@ function AuthenticationController(app: Express, userDao: UserDao){
         if(match){
             existingUser.password = "*****";
             req.session['profile'] = existingUser;
-            console.log("We have a match!");
-            console.log(req.session);
-            console.log(req.sessionID);
             return res.json(existingUser);
         }else{
-            console.log("... Why are we here?");
             return res.sendStatus(403);
         }
     }

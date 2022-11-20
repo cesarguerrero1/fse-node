@@ -50,9 +50,6 @@ function AuthenticationController(app, userDao) {
     function profile(req, res) {
         let profile;
         profile = req.session['profile'];
-        console.log("Looking in the profile now!");
-        console.log(req.session);
-        console.log(req.sessionID);
         //If a session exists then then return the profile so we can display it onscreen!
         if (profile) {
             profile['password'] = "";
@@ -71,28 +68,20 @@ function AuthenticationController(app, userDao) {
     //Log the user in
     function login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("We are getting here!");
-            console.log(req.session);
-            console.log(req.sessionID);
             const user = req.body;
             const username = user.username;
             const password = user.password;
             const existingUser = yield userDao.findUserByUsername(username);
             if (!existingUser) {
-                console.log("user doesn't exist!??!");
                 return res.sendStatus(403);
             }
             const match = yield bcrypt.compare(password, existingUser.password);
             if (match) {
                 existingUser.password = "*****";
                 req.session['profile'] = existingUser;
-                console.log("We have a match!");
-                console.log(req.session);
-                console.log(req.sessionID);
                 return res.json(existingUser);
             }
             else {
-                console.log("... Why are we here?");
                 return res.sendStatus(403);
             }
         });

@@ -64,7 +64,6 @@ const sess = {
     cookie: {
         secure: false,
         httpOnly: true,
-        sameSite: "none",
     }
 }
 
@@ -72,7 +71,8 @@ const sess = {
 if(process.env.ENV === "PRODUCTION"){
     app.set('trust proxy', 1)
     sess.cookie.secure = true,
-    sess.cookie.httpOnly = false
+    sess.cookie.httpOnly = false,
+    Object.assign(sess.cookie, {sameSite: "none"});
 }
 
 app.use(session(sess))

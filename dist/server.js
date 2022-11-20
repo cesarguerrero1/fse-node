@@ -55,14 +55,14 @@ const sess = {
     cookie: {
         secure: false,
         httpOnly: true,
-        sameSite: "none",
     }
 };
 //Secure Cookies only work with HTTPS
 if (process.env.ENV === "PRODUCTION") {
     app.set('trust proxy', 1);
     sess.cookie.secure = true,
-        sess.cookie.httpOnly = false;
+        sess.cookie.httpOnly = false,
+        Object.assign(sess.cookie, { sameSite: "none" });
 }
 app.use(session(sess));
 //Fix the RESPONSE issue
