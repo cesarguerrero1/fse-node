@@ -40,7 +40,13 @@ const auth_controller_1 = __importDefault(require("./controllers/auth-controller
 const session = require('express-session');
 //Importing more things!
 const app = (0, express_1.default)();
+const cors = require('cors');
 app.use(express_1.default.json());
+//This may need to be commented out when we go to production!
+app.use(cors({
+    origin: process.env.ORIGIN_URL,
+    credentials: true,
+}));
 //Options for our Session
 const sess = {
     secret: process.env.SECRET,
@@ -52,14 +58,6 @@ const sess = {
 if (process.env.ENV === "PRODUCTION") {
     app.set('trust proxy', 1);
     sess.cookie.secure = true;
-}
-else {
-    const cors = require('cors');
-    //This may need to be commented out when we go to production!
-    app.use(cors({
-        origin: "http://localhost:3000",
-        credentials: true,
-    }));
 }
 app.use(session(sess));
 //Fix the RESPONSE issue
