@@ -74,7 +74,6 @@ function AuthenticationController(app: Express, userDao: UserDao){
         const username = user.username;
         const password = user.password;
         const existingUser = await userDao.findUserByUsername(username);
-        console.log(existingUser);
 
         if(!existingUser){
             console.log("user doesn't exist!??!");
@@ -82,11 +81,12 @@ function AuthenticationController(app: Express, userDao: UserDao){
         }
         
         const match = await bcrypt.compare(password, existingUser.password);
-        console.log(match);
         if(match){
             existingUser.password = "*****";
             req.session['profile'] = existingUser;
+            console.log("We have a match!");
             console.log(req.session);
+            console.log(req.sessionID);
             return res.json(existingUser);
         }else{
             console.log("... Why are we here?");
