@@ -6,7 +6,7 @@
 * Assignment 4
 */
 
-import e, {Express, Request, Response} from "express";
+import {Express, Request, Response} from "express";
 import UserDao from "../daos/UserDao";
 const bcrypt = require('bcrypt');
 const saltRounds = 10;

@@ -57,7 +57,7 @@ app.use(express.json());
 
 //Options for our Session
 const sess = {
-    secret: "SECRET",
+    secret: process.env.SECRET,
     cookie: {
         secure: false
     }
