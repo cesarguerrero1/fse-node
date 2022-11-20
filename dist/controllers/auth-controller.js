@@ -50,6 +50,9 @@ function AuthenticationController(app, userDao) {
     function profile(req, res) {
         let profile;
         profile = req.session['profile'];
+        console.log("Looking in the profile now!");
+        console.log(req.session);
+        console.log(req.sessionID);
         //If a session exists then then return the profile so we can display it onscreen!
         if (profile) {
             profile['password'] = "";
@@ -70,6 +73,7 @@ function AuthenticationController(app, userDao) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("We are getting here!");
             console.log(req.session);
+            console.log(req.sessionID);
             const user = req.body;
             const username = user.username;
             const password = user.password;
