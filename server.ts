@@ -48,11 +48,7 @@ declare module "express-session"{
 //Importing more things!
 const cors = require('cors')
 const app = express();
-//This may need to be commented out when we go to production! 
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-}));
+
 app.use(express.json());
 
 //Options for our Session
@@ -67,6 +63,12 @@ const sess = {
 if(process.env.ENV === "PRODUCTION"){
     app.set('trust proxy', 1)
     sess.cookie.secure = true
+}else{
+    //This may need to be commented out when we go to production! 
+    app.use(cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+    }));
 }
 
 app.use(session(sess))
