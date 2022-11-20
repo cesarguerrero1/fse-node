@@ -61,10 +61,12 @@ const sess = {
 
 //Secure Cookies only work with HTTPS
 if(process.env.ENV === "PRODUCTION"){
+    console.log("PRODUCTION");
     app.set('trust proxy', 1)
     sess.cookie.secure = true
 }else{
-    //This may need to be commented out when we go to production! 
+    //This may need to be commented out when we go to production!
+    console.log("DEVELOPMENT!"); 
     app.use(cors({
         origin: "http://localhost:3000",
         credentials: true,
