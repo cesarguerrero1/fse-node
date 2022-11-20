@@ -84,9 +84,11 @@ function AuthenticationController(app, userDao) {
             if (match) {
                 existingUser.password = "*****";
                 req.session['profile'] = existingUser;
+                console.log(req.session);
                 return res.json(existingUser);
             }
             else {
+                console.log("... Why are we here?");
                 return res.sendStatus(403);
             }
         });

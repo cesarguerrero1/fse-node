@@ -51,13 +51,15 @@ app.use(cors({
 const sess = {
     secret: process.env.SECRET,
     cookie: {
-        secure: false
+        secure: false,
+        httpOnly: true,
     }
 };
 //Secure Cookies only work with HTTPS
 if (process.env.ENV === "PRODUCTION") {
     app.set('trust proxy', 1);
-    sess.cookie.secure = true;
+    sess.cookie.secure = true,
+        sess.cookie.httpOnly = false;
 }
 app.use(session(sess));
 //Fix the RESPONSE issue
