@@ -39,7 +39,6 @@ const auth_controller_1 = __importDefault(require("./controllers/auth-controller
 //Importing the Session Stuff
 const session = require('express-session');
 //Importing more things!
-const cors = require('cors');
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 //Options for our Session
@@ -55,6 +54,7 @@ if (process.env.ENV === "PRODUCTION") {
     sess.cookie.secure = true;
 }
 else {
+    const cors = require('cors');
     //This may need to be commented out when we go to production!
     app.use(cors({
         origin: "http://localhost:3000",
