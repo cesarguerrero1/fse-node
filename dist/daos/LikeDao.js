@@ -71,7 +71,7 @@ class LikeDao {
     //New Function
     findATuitLikedByUser(tid, uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield LikeModel_1.default.findOne({ tuit: tid }, { likedBy: uid });
+            return yield LikeModel_1.default.findOne({ tuit: tid, likedBy: uid });
         });
     }
     //New Function
