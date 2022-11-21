@@ -63,7 +63,7 @@ class LikeDao implements LikeDaoI{
 
     //New Function
     async findATuitLikedByUser(tid: string, uid: string): Promise<any>{
-        return await LikeModel.findOne({tuit:tid}, {likedBy: uid});
+        return await LikeModel.findOne({tuit:tid, likedBy: uid});
     }
 
     //New Function
