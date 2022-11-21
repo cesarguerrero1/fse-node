@@ -80,27 +80,67 @@ class LikeController {
             const tid = req.params.tid;
             let profile;
             profile = req.session['profile'];
-            const userId = uid === "me" && profile ? profile._id : uid;
-            try {
-                const userAlreadyLikedTuit = yield this.likeDao.findATuitLikedByUser(tid, userId);
-                const howManyLikedTuit = yield this.likeDao.countHowManyLikedTuit(tid);
-                let tuit;
-                tuit = yield this.tuitDao.findTuitById(tid);
-                if (userAlreadyLikedTuit) {
-                    yield this.likeDao.userUnlikesTuit(tid, userId);
-                    tuit.stats.likes = howManyLikedTuit - 1;
+            let userId = uid;
+            let tuit;
+            if (userId === "me" && profile) {
+                userId = profile._id;
+                try {
+                    //Check if the tuit even exists
+                    tuit = yield this.tuitDao.findTuitById(tid);
+                    //Find how many Likes this Tuit has!
+                    const howManyLikedTuit = yield this.likeDao.countHowManyLikedTuit(tid);
+                    //Check if the User has liked this Tuit before
+                    const userAlreadyLikedTuit = yield this.likeDao.findATuitLikedByUser(tid, userId);
+                    if (userAlreadyLikedTuit) {
+                        //The user has already like the Tuit so delete it!
+                        yield this.likeDao.userUnlikesTuit(tid, userId);
+                        tuit.stats.likes = howManyLikedTuit - 1;
+                    }
+                    else {
+                        //The user has not liked the Tuit yet!
+                        yield this.likeDao.userLikesTuit(tid, userId);
+                        tuit.stats.likes = howManyLikedTuit + 1;
+                    }
+                    //Now update the stats!
+                    yield this.tuitDao.updateLikes(tid, tuit.stats);
+                    res.sendStatus(200);
+                }
+                catch (error) {
+                    res.sendStatus(404);
+                }
+            }
+            else {
+                //We aren't logged in, but maybe we are attempting to send from something like Postman
+                if (userId === "me") {
+                    //You aren't logged in!
+                    res.sendStatus(403);
                 }
                 else {
-                    yield this.likeDao.userLikesTuit(userId, tid);
-                    tuit.stats.likes = howManyLikedTuit + 1;
+                    try {
+                        //Check if the tuit even exists
+                        tuit = yield this.tuitDao.findTuitById(tid);
+                        //Find how many Likes this Tuit has!
+                        const howManyLikedTuit = yield this.likeDao.countHowManyLikedTuit(tid);
+                        //Check if the User has liked this Tuit before
+                        const userAlreadyLikedTuit = yield this.likeDao.findATuitLikedByUser(tid, userId);
+                        if (userAlreadyLikedTuit) {
+                            //The user has already like the Tuit so delete it!
+                            yield this.likeDao.userUnlikesTuit(tid, userId);
+                            tuit.stats.likes = howManyLikedTuit - 1;
+                        }
+                        else {
+                            //The user has not liked the Tuit yet!
+                            yield this.likeDao.userLikesTuit(tid, userId);
+                            tuit.stats.likes = howManyLikedTuit + 1;
+                        }
+                        //Now update the stats!
+                        yield this.tuitDao.updateLikes(tid, tuit.stats);
+                        res.sendStatus(200);
+                    }
+                    catch (error) {
+                        res.sendStatus(404);
+                    }
                 }
-                ;
-                //After we either liked or unliked a Tuit, update the stats for that Tuit
-                yield this.tuitDao.updateLikes(tid, tuit.stats);
-                res.sendStatus(200);
-            }
-            catch (e) {
-                res.sendStatus(404);
             }
         });
         this.app = app;
