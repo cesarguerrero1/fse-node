@@ -70,11 +70,12 @@ function AuthenticationController(app: Express, userDao: UserDao){
         const password = user.password;
         const existingUser = await userDao.findUserByUsername(username);
 
+        //If the user doesn't exist then ERROR!
         if(!existingUser){
-            
             return res.sendStatus(403);
         }
         
+        //Check their password hash!
         const match = await bcrypt.compare(password, existingUser.password);
         if(match){
             existingUser.password = "*****";

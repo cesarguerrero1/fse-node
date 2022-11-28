@@ -74,11 +74,14 @@ class TuitController implements TuitControllerI {
         let profile : any
         profile = req.session['profile'];
         let userId = req.params.uid;
+        
+        //All this is saying is that if the request is "me" AND the user is logged in, then use their user ID to search
         if(req.params.uid === "me" && profile){
             userId = profile ._id
             const userTuits = await this.tuitDao.findTuitsByUser(userId);
             return res.send(["loggedIn", userTuits])
         }else{
+            //The request cannot be ME and the user not be logged in. We have no uid to use if this is the case
             if(userId === "me"){
                 return res.send(["notLoggedIn"])
             }else{

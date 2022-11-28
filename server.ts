@@ -50,7 +50,6 @@ const app = express();
 const cors = require('cors')
 app.use(express.json());
 
-//This may need to be commented out when we go to production!
 app.use(cors({
     origin: process.env.ORIGIN_URL,
     credentials: true,
@@ -77,8 +76,6 @@ if(process.env.ENV === "PRODUCTION"){
 
 app.use(session(sess))
 
-//Fix the RESPONSE issue
-
 //Options for the Database
 const options = {
     useNewUrlParser: true,
@@ -89,15 +86,14 @@ const options = {
     socketTimeoutMS: 45000,
     family: 4
 }
-//When we are working locally we ned to connect differently to our local database
-//mongoose.connect('mongodb://localhost:27017/tuiter', options);
 
 //Connecting to REMOTE database. Notice that our username and password are hidden within environmental variables
-mongoose.connect(`mongodb+srv://${process.env.FSE_USERNAME}:${process.env.FSE_PASSWORD}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority`, options);
+mongoose.connect(`mongodb+srv://${process.env.FSE_USERNAME}:${process.env.FSE_PASSWORD}@cluster0.w5c0s1k.mongodb.net/tuiter?retryWrites=true&w=majority` || 'mongodb://localhost:27017/tuiter', options);
 
-//Controller Instantiation
+//Dao Instantiation
 const userDao = new UserDao();
 const tuitDao = new TuitDao();
+//Controller Instantiation
 const userController = new UserController(app, userDao);
 const tuitController = new TuitController(app, tuitDao);
 const likeController = new LikeController(app, new LikeDao(), tuitDao);
