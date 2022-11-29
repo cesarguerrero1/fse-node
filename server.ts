@@ -23,6 +23,8 @@ import TuitController from './controllers/TuitController';
 import TuitDao from './daos/TuitDao';
 import LikeController from "./controllers/LikeController";
 import LikeDao from "./daos/LikeDao";
+import DislikeController from "./controllers/DislikeController";
+import DislikeDao from "./daos/DislikeDao";
 //Follows
 import FollowController from "./controllers/FollowController";
 import FollowDao from "./daos/FollowDao";
@@ -93,10 +95,14 @@ mongoose.connect(`mongodb+srv://${process.env.FSE_USERNAME}:${process.env.FSE_PA
 //Dao Instantiation
 const userDao = new UserDao();
 const tuitDao = new TuitDao();
+const likeDao = new LikeDao();
+const dislikeDao = new DislikeDao();
+
 //Controller Instantiation
 const userController = new UserController(app, userDao);
 const tuitController = new TuitController(app, tuitDao);
-const likeController = new LikeController(app, new LikeDao(), tuitDao);
+const likeController = new LikeController(app, likeDao, dislikeDao, tuitDao);
+const dislikeController = new DislikeController(app, dislikeDao, likeDao, tuitDao);
 //Follows
 const followController = new FollowController(app, new FollowDao());
 //Bookmarks

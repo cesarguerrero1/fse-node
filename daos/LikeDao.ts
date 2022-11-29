@@ -61,12 +61,21 @@ class LikeDao implements LikeDaoI{
         return await LikeModel.deleteOne({tuit:tid, likedBy:uid});
     }
 
-    //New Function
+    /**
+     * Async function to find a given Tuit Disliked by a given User
+     * @param tid - A string that represents the ID for the Tuit associated with this record
+     * @param uid - A string that represents the ID for the User associated with this record
+     * @returns {Promise<any>} - Returns a Promise that when resolved will contain either nothing or a given Like Record
+     */
     async findATuitLikedByUser(tid: string, uid: string): Promise<any>{
         return await LikeModel.findOne({tuit:tid, likedBy: uid});
     }
 
-    //New Function
+    /**
+     * Async function to count how many Like Records exist for a given Tuit
+     * @param tid - A string that represents the ID for the Tuit associated with this record
+     * @returns {Promise<any>} - An integer count of how many Dislike Records exist 
+     */
     async countHowManyLikedTuit(tid: string): Promise<any>{
         return await LikeModel.count({tuit:tid});
     }
