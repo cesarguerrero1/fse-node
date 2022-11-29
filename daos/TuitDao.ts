@@ -85,8 +85,23 @@ class TuitDao implements TuitDaoI {
         return await TuitModel.updateOne({ _id: tid }, { $set: tuit });
     }
 
-    //New Function
-    async updateLikes(tid: string, newStats: {}){
+    /**
+     * Async function to update the tuit stats - This should only be used when liking a Tuit
+     * @param {String} tid A string that represents the unique ID of the Tuit within the database
+     * @param {Object} newStats -   An object containing the new like and dislike count
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted update
+     */
+    async updateLikes(tid: string, newStats: {}): Promise<any>{
+        return await TuitModel.updateOne({_id: tid}, {$set: {stats: newStats}})
+    }
+    
+    /**
+     * Async function to update the tuit stats - This should only be used when disliking a Tuit
+     * @param {String} tid A string that represents the unique ID of the Tuit within the database
+     * @param {Object} newStats - An object containing the new like and dislike count
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted update
+     */
+    async updateDislikes(tid: string, newStats: {}): Promise<any>{
         return await TuitModel.updateOne({_id: tid}, {$set: {stats: newStats}})
     }
 
