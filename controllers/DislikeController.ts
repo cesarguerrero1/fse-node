@@ -57,8 +57,24 @@ class DislikeController{
      * @param {ResponseObject} res Response Object from query which in this case contains a JSON of all Dislikes associated with a given user
      * @return - We are eitehr returning an array containg Tuits or an empty array
      */
-    findAllTuitsDislikedByUser = (req: Request, res: Response) => {
-        this.dislikeDao.findAllTuitsDislikedByUser(req.params.uid).then((dislikes) => res.json(dislikes));
+    findAllTuitsDislikedByUser = async (req: Request, res: Response) => {
+        const uid = req.params.uid;
+        let profile: any;
+        profile = req.session['profile']
+        let userId = uid;
+
+        if(uid === "me" && profile){
+            userId = profile._id;
+            const dislikes = await this.dislikeDao.findAllTuitsDislikedByUser(userId);
+            return res.json(dislikes);
+        }else{
+            if(userId === "me"){
+                return res.json([]);
+            }else{
+                const dislikes = await this.dislikeDao.findAllTuitsDislikedByUser(userId);
+                return res.json(dislikes);
+            }
+        }
     }
 
     /**

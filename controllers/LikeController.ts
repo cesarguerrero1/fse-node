@@ -60,8 +60,24 @@ class LikeController implements LikeControllerI {
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    findAllTuitsLikedByUser = (req: Request, res: Response) => {
-        this.likeDao.findAllTuitsLikedByUser(req.params.uid).then((likes) => res.json(likes));
+    findAllTuitsLikedByUser = async (req: Request, res: Response) => {
+        const uid = req.params.uid;
+        let profile: any;
+        profile = req.session['profile']
+        let userId = uid;
+
+        if(uid === "me" && profile){
+            userId = profile._id;
+            const likes = await this.likeDao.findAllTuitsLikedByUser(userId);
+            return res.json(likes);
+        }else{
+            if(userId === "me"){
+                return res.json([]);
+            }else{
+                const likes = await this.likeDao.findAllTuitsLikedByUser(userId);
+                return res.json(likes);
+            }
+        }
     }
 
     /**
@@ -101,26 +117,6 @@ class LikeController implements LikeControllerI {
     }
 
     /**
-     * Look in the database to see if a user has liked a particular Tuit
-     * @param {RequestObject} req - Request Object with a parameter containing both the User and Tuit ID
-     * @param {ResponseObject} res - Response Object containing either nothing or a particular Like Object
-     * @return - Either returns nothing or a Like Object
-     */
-    findATuitLikedByUser(req: Request, res: Response) {
-        return this.likeDao.findATuitLikedByUser(req.params.tid, req.params.uid).then((like) => res.json(like));
-    }
-
-    /**
-     * Count how many Like records are associated with a given Tuit
-     * @param {RequestObject} req - Request Object with a parameter containg a Tuit ID
-     * @param {Response Object}res - Response Object containing an integer of how many records were found
-     * @returns - Integer
-     */
-    countHowManyLikedTuit(req: Request, res: Response) {
-        return this.likeDao.countHowManyLikedTuit(req.params.tid).then((count) => res.send(count));
-    }
-
-    /**
      * When this function runs, we will be handling the Tuit, the Dislikes, and even the Likes. A Tuit cannot be simultaneously
      * liked and isliked at the same time. When a user Dislikes a Tuit we need to check if they have already disliked the Tuit
      * and react appropriately
@@ -128,7 +124,7 @@ class LikeController implements LikeControllerI {
      * @param {ResponseObject} res - Response Object containing the status code for the given request
      * @returns - A given status code indicating the response from the server
      */
-    userTogglesTuitLikes = async (req: Request, res: Response) => {
+     userTogglesTuitLikes = async (req: Request, res: Response) => {
         const uid = req.params.uid;
         const tid = req.params.tid;
         let profile: any;
@@ -160,7 +156,26 @@ class LikeController implements LikeControllerI {
         }
     }
 
-        
+    /**
+     * Look in the database to see if a user has liked a particular Tuit
+     * @param {RequestObject} req - Request Object with a parameter containing both the User and Tuit ID
+     * @param {ResponseObject} res - Response Object containing either nothing or a particular Like Object
+     * @return - Either returns nothing or a Like Object
+     */
+    findATuitLikedByUser(req: Request, res: Response) {
+        return this.likeDao.findATuitLikedByUser(req.params.tid, req.params.uid).then((like) => res.json(like));
+    }
+
+    /**
+     * Count how many Like records are associated with a given Tuit
+     * @param {RequestObject} req - Request Object with a parameter containg a Tuit ID
+     * @param {Response Object}res - Response Object containing an integer of how many records were found
+     * @returns - Integer
+     */
+    countHowManyLikedTuit(req: Request, res: Response) {
+        return this.likeDao.countHowManyLikedTuit(req.params.tid).then((count) => res.send(count));
+    }
+
     /**
      * Just a quick helper function to keep code from getting too unruly
      */
@@ -200,9 +215,9 @@ class LikeController implements LikeControllerI {
 
             //Now update the stats!
             await this.tuitDao.updateLikes(tid, tuit.stats);
-            return "success"
+            return 'success'
         } catch (error) {
-            return "error"
+            return 'error'
         }
     }
 }

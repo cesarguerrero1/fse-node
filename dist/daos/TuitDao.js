@@ -94,8 +94,24 @@ class TuitDao {
             return yield TuitModel_1.default.updateOne({ _id: tid }, { $set: tuit });
         });
     }
-    //New Function
+    /**
+     * Async function to update the tuit stats - This should only be used when liking a Tuit
+     * @param {String} tid A string that represents the unique ID of the Tuit within the database
+     * @param {Object} newStats -   An object containing the new like and dislike count
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted update
+     */
     updateLikes(tid, newStats) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield TuitModel_1.default.updateOne({ _id: tid }, { $set: { stats: newStats } });
+        });
+    }
+    /**
+     * Async function to update the tuit stats - This should only be used when disliking a Tuit
+     * @param {String} tid A string that represents the unique ID of the Tuit within the database
+     * @param {Object} newStats - An object containing the new like and dislike count
+     * @return {Promise<any>} Returns a Promise that when resolved will contain a JSON object with an update about the attempted update
+     */
+    updateDislikes(tid, newStats) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield TuitModel_1.default.updateOne({ _id: tid }, { $set: { stats: newStats } });
         });
