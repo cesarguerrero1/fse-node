@@ -29,7 +29,7 @@ class LikeDao implements LikeDaoI{
     * @return {Promise<Like[]>} Returns a Promise that when resolved will contain an array of all the Like Objects associated with the User
     */
     async findAllTuitsLikedByUser (uid: string): Promise<Like[]>{
-        return await LikeModel.find({likedBy: uid}).populate("tuit", {_id:1, tuit:1, postedOn:1}).exec();
+        return await LikeModel.find({likedBy: uid}).populate({path:"tuit", populate:{path: "postedBy"}}).populate("likedBy").exec();
     }
 
     /**
