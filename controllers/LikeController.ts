@@ -13,6 +13,7 @@
 //Imports
 import { Request, Response, Express } from "express";
 import LikeDao from "../daos/LikeDao";
+import DislikeDao from "../daos/DislikeDao";
 import TuitDao from "../daos/TuitDao";
 import LikeControllerI from "../interfaces/LikeController";
 
@@ -26,17 +27,21 @@ class LikeController implements LikeControllerI {
 
     private app: Express;
     private likeDao: LikeDao;
+    private dislikeDao: DislikeDao;
     private tuitDao: TuitDao;
 
     /**
      * This class will be instaniated within our server file and we will need
      * to connect an instance of both our application and the DAO in question
      * @param app The instance of our Express Application
-     * @param LikeDao The DAO that will allow us to interact with the database
+     * @param likeDao The DAO that will allow us to interact with the database
+     * @param dislikeDao The DAO that will allow us to interact with the database
+     * @param tuitDao The DAO that will allow us to interact with the database
      */
-    constructor(app: Express, likeDao: LikeDao, tuitDao: TuitDao) {
+    constructor(app: Express, likeDao: LikeDao, dislikeDao: DislikeDao, tuitDao: TuitDao) {
         this.app = app;
         this.likeDao = likeDao;
+        this.dislikeDao = dislikeDao;
         this.tuitDao = tuitDao;
 
         //HTTP Listeners
@@ -55,8 +60,24 @@ class LikeController implements LikeControllerI {
      * @return {void} Since the controller is interacting directly with our client, we don't need to return anything
      * as we will likely just programatically display the content on the screen
      */
-    findAllTuitsLikedByUser = (req: Request, res: Response) => {
-        this.likeDao.findAllTuitsLikedByUser(req.params.uid).then((likes) => res.json(likes));
+    findAllTuitsLikedByUser = async (req: Request, res: Response) => {
+        const uid = req.params.uid;
+        let profile: any;
+        profile = req.session['profile']
+        let userId = uid;
+
+        if(uid === "me" && profile){
+            userId = profile._id;
+            const likes = await this.likeDao.findAllTuitsLikedByUser(userId);
+            return res.json(likes);
+        }else{
+            if(userId === "me"){
+                return res.json([]);
+            }else{
+                const likes = await this.likeDao.findAllTuitsLikedByUser(userId);
+                return res.json(likes);
+            }
+        }
     }
 
     /**
@@ -95,51 +116,29 @@ class LikeController implements LikeControllerI {
         this.likeDao.userUnlikesTuit(req.params.tid, req.params.uid).then((likes) => res.json(likes));
     }
 
-    //New Function
-    findATuitLikedByUser(req: Request, res: Response) {
-        return this.likeDao.findATuitLikedByUser(req.params.tid, req.params.uid).then((like) => res.json(like));
-    }
-
-    //New Function
-    countHowManyLikedTuit(req: Request, res: Response) {
-        return this.likeDao.countHowManyLikedTuit(req.params.tid).then((count) => res.send(count));
-    }
-
-    //New Function
-    userTogglesTuitLikes = async (req: Request, res: Response) => {
+    /**
+     * When this function runs, we will be handling the Tuit, the Dislikes, and even the Likes. A Tuit cannot be simultaneously
+     * liked and isliked at the same time. When a user Dislikes a Tuit we need to check if they have already disliked the Tuit
+     * and react appropriately
+     * @param {RequestObject} req - Request object containing the User and Tuit ID
+     * @param {ResponseObject} res - Response Object containing the status code for the given request
+     * @returns - A given status code indicating the response from the server
+     */
+     userTogglesTuitLikes = async (req: Request, res: Response) => {
         const uid = req.params.uid;
         const tid = req.params.tid;
         let profile: any;
         profile = req.session['profile'];
         let userId = uid;
-        let tuit: any;
+        let status = null;
 
         if (userId === "me" && profile) {
             userId = profile._id;
-            try {
-                //Check if the tuit even exists
-                tuit = await this.tuitDao.findTuitById(tid);
-                //Find how many Likes this Tuit has!
-                const howManyLikedTuit = await this.likeDao.countHowManyLikedTuit(tid);
-
-                //Check if the User has liked this Tuit before
-                const userAlreadyLikedTuit = await this.likeDao.findATuitLikedByUser(tid, userId);
-
-                if(userAlreadyLikedTuit) {
-                    //The user has already like the Tuit so delete it!
-                    await this.likeDao.userUnlikesTuit(tid, userId);
-                    tuit.stats.likes = howManyLikedTuit - 1;
-                }else{
-                    //The user has not liked the Tuit yet!
-                    await this.likeDao.userLikesTuit(tid, userId);
-                    tuit.stats.likes = howManyLikedTuit + 1;
-                }
-
-                //Now update the stats!
-                await this.tuitDao.updateLikes(tid, tuit.stats);
+            status = await this.tuitLikeHelperFunction(tid, userId);
+            if(status === 'success'){
                 res.sendStatus(200);
-            } catch (error) {
-                res.sendStatus(404);
+            }else{
+                res.sendStatus(404)
             }
         }else{
             //We aren't logged in, but maybe we are attempting to send from something like Postman
@@ -147,32 +146,78 @@ class LikeController implements LikeControllerI {
                 //You aren't logged in!
                 res.sendStatus(403);
             }else {
-                try {
-                    //Check if the tuit even exists
-                    tuit = await this.tuitDao.findTuitById(tid);
-                    //Find how many Likes this Tuit has!
-                    const howManyLikedTuit = await this.likeDao.countHowManyLikedTuit(tid);
-    
-                    //Check if the User has liked this Tuit before
-                    const userAlreadyLikedTuit = await this.likeDao.findATuitLikedByUser(tid, userId);
-            
-                    if(userAlreadyLikedTuit) {
-                        //The user has already like the Tuit so delete it!
-                        await this.likeDao.userUnlikesTuit(tid, userId);
-                        tuit.stats.likes = howManyLikedTuit - 1;
-                    }else{
-                        //The user has not liked the Tuit yet!
-                        await this.likeDao.userLikesTuit(tid, userId);
-                        tuit.stats.likes = howManyLikedTuit + 1;
-                    }
-    
-                    //Now update the stats!
-                    await this.tuitDao.updateLikes(tid, tuit.stats);
+                status = await this.tuitLikeHelperFunction(tid, userId);
+                if(status === 'success'){
                     res.sendStatus(200);
-                } catch (error) {
-                    res.sendStatus(404);
+                }else{
+                    res.sendStatus(404)
                 }
             }
+        }
+    }
+
+    /**
+     * Look in the database to see if a user has liked a particular Tuit
+     * @param {RequestObject} req - Request Object with a parameter containing both the User and Tuit ID
+     * @param {ResponseObject} res - Response Object containing either nothing or a particular Like Object
+     * @return - Either returns nothing or a Like Object
+     */
+    findATuitLikedByUser(req: Request, res: Response) {
+        return this.likeDao.findATuitLikedByUser(req.params.tid, req.params.uid).then((like) => res.json(like));
+    }
+
+    /**
+     * Count how many Like records are associated with a given Tuit
+     * @param {RequestObject} req - Request Object with a parameter containg a Tuit ID
+     * @param {Response Object}res - Response Object containing an integer of how many records were found
+     * @returns - Integer
+     */
+    countHowManyLikedTuit(req: Request, res: Response) {
+        return this.likeDao.countHowManyLikedTuit(req.params.tid).then((count) => res.send(count));
+    }
+
+    /**
+     * Just a quick helper function to keep code from getting too unruly
+     */
+     async tuitLikeHelperFunction(tid:string, userId:string){
+        let tuit: any;
+
+        try {
+            //Check if the tuit even exists
+            tuit = await this.tuitDao.findTuitById(tid);
+
+            //Grab how many likes are associated with this Tuit and see if a User has already Liked it
+            const userAlreadyLikedTuit = await this.likeDao.findATuitLikedByUser(tid, userId);
+            const howManyLikedTuit = await this.likeDao.countHowManyLikedTuit(tid);
+
+            //Now we need some logic! We are attempting to like a Tuit so we have two scenarios
+            if(userAlreadyLikedTuit) {
+                //The user has already like the Tuit and are now clicking it again! No need to counteract dislikes
+                await this.likeDao.userUnlikesTuit(tid, userId);
+                tuit.stats.likes = howManyLikedTuit - 1;
+            }else{
+                //The user has not liked the Tuit yet! However we now need to counterct the dislike if necessary
+                
+                //Grab how many dislikes are associated with this Tuit and see if a User has already Disliked it
+                const userAlreadyDislikedTuit = await this.dislikeDao.findATuitDislikedByUser(tid, userId);
+
+                if(userAlreadyDislikedTuit){
+                    const howManyDislikedTuit = await this.dislikeDao.countHowManyDislikedTuit(tid);
+                    //The user currently dislikes the Tuit so remove it!
+                    await this.dislikeDao.userUndislikesTuit(tid, userId);
+                    tuit.stats.dislikes = howManyDislikedTuit - 1;
+                }
+
+                //We are all set to add our like
+                await this.likeDao.userLikesTuit(tid, userId);
+                tuit.stats.likes = howManyLikedTuit + 1;
+            }
+
+            //Now update the stats!
+            await this.tuitDao.updateLikes(tid, tuit.stats);
+            return 'success'
+        } catch (error) {
+            return 'error'
         }
     }
 }

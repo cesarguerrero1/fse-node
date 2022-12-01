@@ -72,9 +72,11 @@ function AuthenticationController(app, userDao) {
             const username = user.username;
             const password = user.password;
             const existingUser = yield userDao.findUserByUsername(username);
+            //If the user doesn't exist then ERROR!
             if (!existingUser) {
                 return res.sendStatus(403);
             }
+            //Check their password hash!
             const match = yield bcrypt.compare(password, existingUser.password);
             if (match) {
                 existingUser.password = "*****";
