@@ -25,7 +25,7 @@ class DislikeDao{
      * @returns {Promise<Dislike[]>} - Returns a Promise that when resolved will contain an array of Dislikes
      */
     async findAllTuitsDislikedByUser(uid: string): Promise<Dislike[]>{
-        return await DislikeModel.find({dislikedBy: uid}).populate("tuit", {_id:1, tuit:1, postedOn:1}).exec();
+        return await DislikeModel.find({dislikedBy: uid}).populate({path:"tuit", populate:{path:"postedBy"}}).populate("dislikedBy").exec();
     }
 
     /**

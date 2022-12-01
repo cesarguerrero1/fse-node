@@ -32,7 +32,7 @@ class DislikeDao {
      */
     findAllTuitsDislikedByUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield DislikeModel_1.default.find({ dislikedBy: uid }).populate("tuit", { _id: 1, tuit: 1, postedOn: 1 }).exec();
+            return yield DislikeModel_1.default.find({ dislikedBy: uid }).populate({ path: "tuit", populate: { path: "postedBy" } }).populate("dislikedBy").exec();
         });
     }
     /**
