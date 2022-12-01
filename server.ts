@@ -12,7 +12,7 @@
  * advantage of encapsulation and the Singleton Pattern to make the code as readable as possible
  */
 
-//Imports and housekeeping
+//Imports
 import express from "express";
 import mongoose from "mongoose";
 
