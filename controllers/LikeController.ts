@@ -169,7 +169,7 @@ class LikeController implements LikeControllerI {
     /**
      * Count how many Like records are associated with a given Tuit
      * @param {RequestObject} req - Request Object with a parameter containg a Tuit ID
-     * @param {Response Object}res - Response Object containing an integer of how many records were found
+     * @param {ResponseObject}res - Response Object containing an integer of how many records were found
      * @returns - Integer
      */
     countHowManyLikedTuit(req: Request, res: Response) {

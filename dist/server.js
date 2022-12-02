@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * as well as instantiate instances of the appropriate controllers and connect them to our application. We are taking
  * advantage of encapsulation and the Singleton Pattern to make the code as readable as possible
  */
-//Imports and housekeeping
+//Imports
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 //Controllers and DAO Imports
