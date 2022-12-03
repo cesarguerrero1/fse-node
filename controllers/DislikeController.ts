@@ -63,7 +63,7 @@ class DislikeController{
         profile = req.session['profile']
         let userId = uid;
 
-        if(uid === "me" && profile){
+        if(userId === "me" && profile){
             userId = profile._id;
             const dislikes = await this.dislikeDao.findAllTuitsDislikedByUser(userId);
             return res.json(dislikes);

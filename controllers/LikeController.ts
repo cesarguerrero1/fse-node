@@ -66,7 +66,7 @@ class LikeController implements LikeControllerI {
         profile = req.session['profile']
         let userId = uid;
 
-        if(uid === "me" && profile){
+        if(userId === "me" && profile){
             userId = profile._id;
             const likes = await this.likeDao.findAllTuitsLikedByUser(userId);
             return res.json(likes);
